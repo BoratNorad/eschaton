@@ -26,7 +26,10 @@ describe("createGame(indpak_1999)", () => {
     const india = newGame().nations.india!;
     expect(india.baseStats).toEqual({ agg: 4, esc: 8, par: 5, blf: 5, loy: 7, dom: 7, ctl: 9 });
     expect(india.nuclear).toEqual({ warheads: 35, progressBp: 0, statusIndex: 5, exposed: true });
-    expect(india.treaties).toEqual({ india_pakistan_nuclear_facilities: "ratified", lahore_declaration: "ratified" });
+    expect(india.treaties).toEqual({
+      india_pakistan_nuclear_facilities: "ratified", indus_waters_treaty: "ratified", lahore_declaration: "ratified",
+    });
+    expect(Object.keys(india.metros)).toContain("pune");
     expect(india.regionsControlled).toContain("jammu_kashmir");
     expect(india.discoveredSites).not.toContain("india_cw_depot");
     expect(india.forces).toEqual({ jammu_kashmir: 30, punjab_haryana: 25, rajasthan: 20, ladakh_kargil: 8 });

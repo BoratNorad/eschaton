@@ -7,7 +7,7 @@ export const TreatyCovers = z.enum([
   "nuclear_test_atmospheric", "nuclear_test_all", "nuclear_proliferation", "nuclear_free_zone",
   "launcher_limits", "missile_defense_limits", "intermediate_missiles",
   "space_wmd", "seabed_wmd", "nuclear_facility_attack",
-  "export_controls", "security_assurance", "confidence_building",
+  "export_controls", "security_assurance", "confidence_building", "water_sharing",
 ]);
 
 export const Verification = z.enum([

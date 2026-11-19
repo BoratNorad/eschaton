@@ -8,7 +8,7 @@
   "startingPhase": "cold_composite",
   "coalitions": ["INDPAK"],
   "nations": ["india", "pakistan"],
-  "treaties": ["india_pakistan_nuclear_facilities", "lahore_declaration"],
+  "treaties": ["india_pakistan_nuclear_facilities", "indus_waters_treaty", "lahore_declaration"],
   "triggers": ["kargil_infiltration", "parliament_attack"],
   "initialTensions": [{ "pair": ["india", "pakistan"], "level": 2, "pressure": 30 }],
   "victory": [

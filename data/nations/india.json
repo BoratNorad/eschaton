@@ -12,7 +12,8 @@
     { "id": "chennai", "name": "Chennai", "regionId": "tamil_nadu", "populationK": 6400, "economicWeight": 5 },
     { "id": "bangalore", "name": "Bangalore", "regionId": "deccan", "populationK": 5700, "economicWeight": 5 },
     { "id": "hyderabad_in", "name": "Hyderabad", "regionId": "deccan", "populationK": 5700, "economicWeight": 4 },
-    { "id": "ahmedabad", "name": "Ahmedabad", "regionId": "gujarat", "populationK": 4500, "economicWeight": 4 }
+    { "id": "ahmedabad", "name": "Ahmedabad", "regionId": "gujarat", "populationK": 4500, "economicWeight": 4 },
+    { "id": "pune", "name": "Pune", "regionId": "maharashtra", "populationK": 3700, "economicWeight": 3 }
   ],
   "sites": [
     { "id": "south_block", "name": "South Block", "regionId": "delhi_ncr", "kinds": ["leadership"], "hardness": 3, "discovery": "public", "value": 95 },
@@ -24,6 +25,9 @@
     { "id": "gwalior_air_base", "name": "Gwalior air base", "regionId": "central_india", "kinds": ["air_base"], "hardness": 4, "discovery": "public", "value": 65 },
     { "id": "ambala_air_base", "name": "Ambala air base", "regionId": "punjab_haryana", "kinds": ["air_base"], "hardness": 4, "discovery": "public", "value": 60 },
     { "id": "northern_command", "name": "Northern Command, Udhampur", "regionId": "jammu_kashmir", "kinds": ["army_base", "command_bunker"], "hardness": 5, "discovery": "public", "value": 70 },
+    { "id": "kalpakkam", "name": "Kalpakkam nuclear complex", "regionId": "tamil_nadu", "kinds": ["reactor", "reprocessing"], "hardness": 3, "discovery": "public", "value": 65 },
+    { "id": "siachen_glacier", "name": "Siachen Glacier positions", "regionId": "ladakh_kargil", "kinds": ["army_base"], "hardness": 6, "discovery": "public", "value": 40, "notes": "High-altitude posts; abstracted as one site." },
+    { "id": "line_of_control", "name": "Line of Control positions", "regionId": "jammu_kashmir", "kinds": ["army_base"], "hardness": 5, "discovery": "public", "value": 50, "notes": "The fortified line, abstracted as one site on the Indian side." },
     {
       "id": "india_cw_depot",
       "name": "Undisclosed chemical depot",

@@ -1,0 +1,45 @@
+{
+  "id": "indus_waters_treaty",
+  "name": "Indus Waters Treaty",
+  "year": 1960,
+  "covers": [
+    "water_sharing"
+  ],
+  "verification": "regional_agency",
+  "detectionBpPerTurn": 5000,
+  "parties": {
+    "india": "ratified",
+    "pakistan": "ratified"
+  },
+  "inForce": true,
+  "onWithdrawal": [
+    {
+      "kind": "emit_event",
+      "eventType": "water_treaty_suspended",
+      "visibility": "public",
+      "text": "The Indus Waters Treaty has been suspended. Downstream water is now a lever.",
+      "actor": "$actor"
+    },
+    {
+      "kind": "add_pressure",
+      "pair": [
+        "india",
+        "pakistan"
+      ],
+      "points": 30
+    },
+    {
+      "kind": "stability_shock",
+      "nation": "pakistan",
+      "amount": -10
+    },
+    {
+      "kind": "modify_stat",
+      "nation": "pakistan",
+      "stat": "par",
+      "delta": 1,
+      "turns": 12
+    }
+  ],
+  "notes": "Compendium: water can be weaponized by suspending it. Modeled as an upstream (Indian) lever: the stability and paranoia costs fall on Pakistan whoever withdraws, an accepted simplification. The Permanent Indus Commission is modeled as a regional agency."
+}

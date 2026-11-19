@@ -22,7 +22,10 @@
     { "id": "chagai", "name": "Chagai test site", "regionId": "balochistan", "kinds": ["test_site"], "hardness": 6, "discovery": "public", "value": 30 },
     { "id": "sargodha_air_base", "name": "Sargodha air base", "regionId": "punjab_pk", "kinds": ["air_base"], "hardness": 5, "discovery": "public", "value": 70 },
     { "id": "wah_factories", "name": "Wah ordnance factories", "regionId": "punjab_pk", "kinds": ["industrial"], "hardness": 2, "discovery": "public", "value": 50 },
-    { "id": "karachi_port", "name": "Karachi port and naval base", "regionId": "sindh", "kinds": ["port", "naval_base"], "hardness": 2, "discovery": "public", "value": 80 }
+    { "id": "karachi_port", "name": "Karachi port and naval base", "regionId": "sindh", "kinds": ["port", "naval_base"], "hardness": 2, "discovery": "public", "value": 80 },
+    { "id": "kirana_hills", "name": "Kirana Hills", "regionId": "punjab_pk", "kinds": ["shelter", "test_site"], "hardness": 8, "discovery": "suspected", "value": 55, "notes": "Reported storage and cold-test tunnels near Sargodha; role uncertain in public sources." },
+    { "id": "kamra", "name": "Kamra air base and aeronautical complex", "regionId": "islamabad_rawalpindi", "kinds": ["air_base", "industrial"], "hardness": 4, "discovery": "public", "value": 55 },
+    { "id": "gwadar", "name": "Gwadar port", "regionId": "balochistan", "kinds": ["port"], "hardness": 1, "discovery": "public", "value": 25, "notes": "Construction began in 2002; small at the snapshot." }
   ],
   "nuclear": { "status": "declared_arsenal", "warheads": 30, "progressBp": 0, "progressPerTurnBp": 150, "testsConducted": 6 },
   "chemical": { "status": "none", "stockpileTonnes": 0 },

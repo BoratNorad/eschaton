@@ -113,6 +113,14 @@ describe("step 2: diplomacy", () => {
     expect(types(state)).toContain("treaty_withdrawn");
   });
 
+  it("suspending the Indus Waters Treaty is a public lever against Pakistan", () => {
+    const { state } = run(newGame(), { india: [{ kind: "withdraw_treaty", treatyId: "indus_waters_treaty" }] }, noTriggers);
+    expect(state.nations.india!.treaties.indus_waters_treaty).toBe("withdrawn");
+    expect(state.events.find((e) => e.type === "water_treaty_suspended")).toMatchObject({ actor: "india", visibility: "public" });
+    expect(tension(state).pressure).toBe(60); // 30 at start + 30; too soon for quiet decay
+    expect(state.nations.pakistan!.modifiers).toEqual([{ stat: "par", delta: 1, untilTurn: 12, source: "indus_waters_treaty" }]);
+  });
+
   it("signals: private to both parties, sincerity hidden, pressure applied", () => {
     const { state } = run(newGame(), { india: [{ kind: "signal", to: "pakistan", signal: "threat", sincere: false }] }, noTriggers);
     const [sig, intent] = state.events;
