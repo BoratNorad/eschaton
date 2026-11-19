@@ -1,0 +1,21 @@
+{
+  "description": "Ids must be lowercase snake_case",
+  "kind": "triggers",
+  "content": {
+    "id": "Bad_Trigger",
+    "name": "Test",
+    "historicalModel": "None",
+    "when": {
+      "kind": "always"
+    },
+    "chanceBp": 100,
+    "effects": [
+      {
+        "kind": "set_flag",
+        "flag": "x",
+        "value": true
+      }
+    ]
+  },
+  "expect": "ids must be lowercase snake_case"
+}

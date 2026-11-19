@@ -1,0 +1,31 @@
+{
+  "description": "A leader trait with no handler in src/traits",
+  "kind": "leaders",
+  "content": {
+    "id": "test_leader",
+    "name": "Test Person",
+    "alias": "Test Alias",
+    "title": "Leader",
+    "snapshot": {
+      "from": 1999,
+      "to": 2000
+    },
+    "stats": {
+      "agg": 5,
+      "esc": 5,
+      "par": 5,
+      "blf": 5,
+      "loy": 5,
+      "dom": 5,
+      "ctl": 5
+    },
+    "profile": "Test profile.",
+    "traits": [
+      {
+        "id": "mind_control",
+        "params": {}
+      }
+    ]
+  },
+  "expect": "unknown trait \"mind_control\""
+}

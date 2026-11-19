@@ -2,12 +2,15 @@ import { applyEffects } from "../../logic/effect.js";
 import { evaluateCondition } from "../../logic/condition.js";
 import { emitEvent } from "../../logic/events.js";
 import { rollBp } from "../../rng.js";
+import { clamp } from "../../logic/values.js";
+import { adjustTriggerChance } from "../../traits/run.js";
 import { sortedEntries } from "../../util/determinism.js";
 import { ctxFor, type Turn } from "../turn.js";
 
 // Step 7. Triggers in sorted id order. For each: skip on phase filter,
 // maxFires or cooldown (no draws); evaluate `when` (draws only for `chance`
-// leaves); if it holds, roll chanceBp (exactly one draw); on success apply effects.
+// leaves); if it holds, roll chanceBp as adjusted by traits (exactly one draw);
+// on success apply effects.
 
 export function resolveTriggers(t: Turn): void {
   const { state } = t;
@@ -21,7 +24,8 @@ export function resolveTriggers(t: Turn): void {
     const bindings = { actor: trigger.bindings.actor, target: trigger.bindings.target };
     const ctx = ctxFor(t, id, bindings);
     if (!evaluateCondition(ctx, trigger.when)) continue;
-    if (!rollBp(state.rng, trigger.chanceBp)) continue;
+    const chanceBp = clamp(adjustTriggerChance(t, trigger, trigger.chanceBp), 0, 10_000);
+    if (!rollBp(state.rng, chanceBp)) continue;
 
     fires.count += 1;
     fires.lastTurn = state.turn;

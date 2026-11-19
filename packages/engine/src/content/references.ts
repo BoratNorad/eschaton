@@ -1,5 +1,7 @@
 import type { Condition, Effect, SideRef } from "../schema/index.js";
 import type { ContentBundle } from "./bundle.js";
+import { TRAITS } from "../traits/registry.js";
+import type { TraitRef } from "../schema/index.js";
 
 // Cross-file checks that a single schema cannot do: every id must exist, be
 // unique, and point at the right kind of thing. Returns human-readable errors.
@@ -192,6 +194,19 @@ function checkBindings(
 export function validateReferences(b: ContentBundle): string[] {
   const errors: string[] = [];
   const err = (where: string, msg: string) => errors.push(`${where}: ${msg}`);
+
+  // --- traits: every id needs a handler of the right scope, with valid params ---
+  const checkTraits = (where: string, refs: readonly TraitRef[], scope: "leader" | "coalition") => {
+    for (const r of refs) {
+      const reg = TRAITS.get(r.id);
+      if (reg === undefined) { err(where, `unknown trait "${r.id}" (no handler in src/traits)`); continue; }
+      if (reg.scope !== scope) err(where, `trait "${r.id}" is a ${reg.scope} trait, not a ${scope} trait`);
+      for (const e of reg.validate(r.params)) err(where, `trait "${r.id}" ${e}`);
+    }
+  };
+  for (const l of b.leaders) checkTraits(`leader ${l.id}`, l.traits, "leader");
+  for (const c of b.coalitions) checkTraits(`coalition ${c.id}`, c.specialRules, "coalition");
+  for (const n of b.nations) for (const lf of n.legacyFiles) checkTraits(`nation ${n.id} legacy ${lf.id}`, lf.traits, "leader");
 
   // --- global id uniqueness -------------------------------------------------
   const seen = new Map<string, string>();

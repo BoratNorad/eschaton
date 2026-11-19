@@ -316,7 +316,7 @@ describe("step 8: non-state actors (synthetic content)", () => {
     expect(s1.nonState.test_cell).toEqual({ active: true, stepIndex: 0 });
     const s2 = run(s1, {}, b).state;
     expect(types(s2)).toEqual(expect.arrayContaining(["nonstate_activity_detected", "nonstate_attack"]));
-    expect(s2.leakagePool).toBe(9);
+    expect(s2.leakagePool).toBe(13); // 10 - 1 for the step, + 2 per turn from khan_network
     expect(s2.events.find((e) => e.type === "nonstate_attack")?.target).toBe("india");
   });
 });

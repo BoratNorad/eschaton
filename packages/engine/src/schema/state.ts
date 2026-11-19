@@ -14,7 +14,8 @@ import {
 // and the engine reads it from the immutable ContentBundle.
 // ---------------------------------------------------------------------------
 
-export const SCHEMA_VERSION = 1 as const;
+/** v2: NationState.traitCounters. Migrations live in src/migrations/. */
+export const SCHEMA_VERSION = 2 as const;
 
 /** sfc32 generator state. Only src/rng.ts may read or advance it. */
 export const RngState = z.object({ a: Uint32, b: Uint32, c: Uint32, d: Uint32 }).strict();
@@ -64,6 +65,8 @@ export const NationState = z
     covertViolations: z.array(z.object({ treatyId: Slug, sinceTurn: NonNegInt }).strict()),
     unlockedActions: z.array(z.object({ action: Slug, untilTurn: NonNegInt }).strict()),
     sanctionsAgainst: NonNegInt,
+    /** Small per-trait counters keyed by trait id (e.g. turns spent mobilized). Owned by src/traits. */
+    traitCounters: z.record(Slug, NonNegInt),
   })
   .strict();
 export type NationState = z.infer<typeof NationState>;

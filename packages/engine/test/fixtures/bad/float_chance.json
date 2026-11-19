@@ -1,0 +1,21 @@
+{
+  "description": "Integers only: basis points cannot be fractional",
+  "kind": "triggers",
+  "content": {
+    "id": "test_trigger",
+    "name": "Test",
+    "historicalModel": "None",
+    "when": {
+      "kind": "always"
+    },
+    "chanceBp": 12.5,
+    "effects": [
+      {
+        "kind": "set_flag",
+        "flag": "x",
+        "value": true
+      }
+    ]
+  },
+  "expect": "Expected integer"
+}

@@ -1,0 +1,25 @@
+{
+  "description": "Ids are globally unique across content kinds",
+  "kind": "leaders",
+  "content": {
+    "id": "kahuta",
+    "name": "Test Person",
+    "alias": "Test Alias",
+    "title": "Leader",
+    "snapshot": {
+      "from": 1999,
+      "to": 2000
+    },
+    "stats": {
+      "agg": 5,
+      "esc": 5,
+      "par": 5,
+      "blf": 5,
+      "loy": 5,
+      "dom": 5,
+      "ctl": 5
+    },
+    "profile": "Test profile."
+  },
+  "expect": "id \"kahuta\" already used"
+}

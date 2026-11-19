@@ -1,0 +1,24 @@
+{
+  "description": "Trigger effect uses $target but only $actor is bound",
+  "kind": "triggers",
+  "content": {
+    "id": "test_trigger",
+    "name": "Test",
+    "historicalModel": "None",
+    "when": {
+      "kind": "always"
+    },
+    "chanceBp": 100,
+    "effects": [
+      {
+        "kind": "stability_shock",
+        "nation": "$target",
+        "amount": -5
+      }
+    ],
+    "bindings": {
+      "actor": "pakistan"
+    }
+  },
+  "expect": "uses $target, but only $actor bound here"
+}

@@ -1,0 +1,20 @@
+{
+  "description": "Effect references a site that does not exist",
+  "kind": "triggers",
+  "content": {
+    "id": "test_trigger",
+    "name": "Test",
+    "historicalModel": "None",
+    "when": {
+      "kind": "always"
+    },
+    "chanceBp": 100,
+    "effects": [
+      {
+        "kind": "reveal_site",
+        "site": "atlantis"
+      }
+    ]
+  },
+  "expect": "unknown site \"atlantis\""
+}

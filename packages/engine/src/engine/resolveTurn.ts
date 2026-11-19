@@ -14,6 +14,7 @@ import { resolveTriggers } from "./steps/triggers.js";
 import { resolveUpkeep } from "./steps/upkeep.js";
 import { validateOrders } from "./steps/validate.js";
 import { makeTurn } from "./turn.js";
+import { runAfterStrikes, runUpkeep } from "../traits/run.js";
 
 /**
  * Resolve one WEGO turn. Pure: the input state is cloned once and never
@@ -31,10 +32,12 @@ export function resolveTurn(content: ContentBundle, input: GameState, orders: re
   resolvePosture(t); //                      3
   resolveMovement(t); //                     4
   resolveStrikes(t); //                      5
+  runAfterStrikes(t); //                       traits
   resolveProliferation(t); //                6
   resolveTriggers(t); //                     7
   resolveNonState(t); //                     8
-  resolveUpkeep(t); //                       9
+  runUpkeep(t); //                          9  traits first, then
+  resolveUpkeep(t); //                          tension upkeep
   resolveIntel(t); //                       10
   resolvePhaseAndVictory(t); //             11
   resolveEndOfTurn(t); //                   12

@@ -133,6 +133,7 @@ function initialNation(
     covertViolations: [],
     unlockedActions: [],
     sanctionsAgainst: 0,
+    traitCounters: {},
   };
 }
 

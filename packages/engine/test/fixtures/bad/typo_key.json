@@ -1,0 +1,21 @@
+{
+  "description": "Strict objects reject unknown keys (chanceBP for chanceBp)",
+  "kind": "triggers",
+  "content": {
+    "id": "test_trigger",
+    "name": "Test",
+    "historicalModel": "None",
+    "when": {
+      "kind": "always"
+    },
+    "effects": [
+      {
+        "kind": "set_flag",
+        "flag": "x",
+        "value": true
+      }
+    ],
+    "chanceBP": 100
+  },
+  "expect": "Unrecognized key"
+}

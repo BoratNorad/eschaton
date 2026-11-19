@@ -60,7 +60,7 @@ break silently if any of them is violated.
 
 ## Turn resolution order (fixed; changing it is a design decision, ask first)
 
-1. Validate each `OrderSet` against `legalOrders`; drop illegal orders with a private event.
+1. Validate each `OrderSet` with the `checkOrderSet` rules (`legalOrders` is only a menu); drop illegal orders with a private event.
 2. Diplomacy: treaty proposals, signatures, withdrawals, ceasefires.
 3. Posture: alerts, mobilization, investments, intel focus.
 4. Movement: deployments.
@@ -86,7 +86,9 @@ break silently if any of them is violated.
   or psychiatric claims about real people.
 - Numbers are approximate public estimates. Mark uncertain values in `notes`.
 - New mechanics referenced by `traits` or `specialRules` need a handler in
-  `src/traits/` plus a test. Unknown trait ids must fail validation once the registry exists.
+  `src/traits/` (registered in `registry.ts`) plus a test. Unknown trait ids, wrong scope
+  and bad params fail validation. Trait hooks run at fixed points (end of step 5, start
+  of step 9, and as chance adjusters in steps 4 and 7) and never draw from the RNG.
 - After any content change, run `npm run validate`.
 
 ## Content safety boundary
@@ -115,9 +117,9 @@ failure rates, never as instructions.
 
 - **Golden replays:** fixed seed + fixed order sets → the `hashState` after N turns
   must equal a committed value. Any change that moves a golden hash must be intentional
-  and noted in the commit message.
+  and noted in the commit message. Regenerate with `UPDATE_GOLDEN=1 npx vitest run golden`.
 - **Determinism:** run the same game twice in one process and compare hashes every turn.
-- **Content:** `npm run validate` in CI; negative fixtures in `test/fixtures/bad/` must fail.
+- **Content:** `npm run validate` in CI; negative fixtures in `packages/engine/test/fixtures/bad/` must fail.
 - **Balance harness (packages/ai):** run 1,000+ headless AI-vs-AI games per scenario
   and report win rates, game length, and the share of games reaching tension level 5
   and nuclear use. Target for INDPAK: nuclear use in under 15% of games.

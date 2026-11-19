@@ -5,6 +5,7 @@ import { nextInt } from "../../rng.js";
 import type { NationState } from "../../schema/index.js";
 import { pairKey } from "../../util/determinism.js";
 import { RULES } from "../rules.js";
+import { adjustAssaultChance } from "../../traits/run.js";
 import { nationContent, ordersOf, regionController, tensionLevel, type Turn } from "../turn.js";
 import { breakCeasefire } from "./ceasefire.js";
 
@@ -56,9 +57,8 @@ export function resolveMovement(t: Turn): void {
       (garrison * nationContent(t, defId).conventional.army * (50 + def.readiness) *
         (terrain === "mountain" ? RULES.mountainDefensePct : 100)) / 100,
     );
-    const chanceBp = defPower === 0
-      ? RULES.maxBattleBp
-      : clamp(Math.floor((attPower * 10_000) / (attPower + defPower)), RULES.minBattleBp, RULES.maxBattleBp);
+    const baseBp = defPower === 0 ? RULES.maxBattleBp : Math.floor((attPower * 10_000) / (attPower + defPower));
+    const chanceBp = clamp(adjustAssaultChance(t, nationId, defId, baseBp), RULES.minBattleBp, RULES.maxBattleBp);
     const roll = nextInt(state.rng, 10_000);
     const won = roll < chanceBp;
     const regionName = t.map.regions.find((r) => r.id === order.toRegion)?.name ?? order.toRegion;
