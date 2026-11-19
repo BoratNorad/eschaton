@@ -1,6 +1,6 @@
 import { rollD10 } from "../rng.js";
 import { sortedEntries } from "../util/determinism.js";
-import { PhaseId, type Effect, type GameState } from "../schema/index.js";
+import { PhaseId, type Effect, type GameState, type PartyStatus } from "../schema/index.js";
 import {
   LogicError, MAX_HOOK_DEPTH, nationState, requireRng, resolveNationId, resolveSide, withBindings, type EvalContext,
 } from "./context.js";
@@ -106,20 +106,9 @@ export function applyEffect(ctx: EvalContext, e: Effect): void {
     case "reveal_site":
       revealSite(ctx, e.site);
       return;
-    case "sanction": {
-      const by = resolveSide(ctx, e.by);
-      const n = nationState(ctx, e.against);
-      if (n === undefined) return;
-      n.sanctionsAgainst = Math.min(100, n.sanctionsAgainst + e.severity);
-      emitEvent(state, {
-        type: "sanction_imposed",
-        visibility: "public",
-        text: `${by} imposes sanctions on ${n.nationId}.`,
-        target: n.nationId,
-        data: { by, severity: e.severity, source: ctx.source },
-      });
+    case "sanction":
+      imposeSanction(ctx, resolveSide(ctx, e.by), resolveNationId(ctx, e.against), e.severity);
       return;
-    }
     case "add_leakage":
       state.leakagePool = Math.max(0, state.leakagePool + e.amount);
       return;
@@ -159,15 +148,44 @@ export function applyEffect(ctx: EvalContext, e: Effect): void {
  * Party status does not change (withdrawal is a separate order). The hook's own
  * effects decide what, if anything, is announced.
  */
-function violateTreaty(ctx: EvalContext, nationId: string, treatyId: string): void {
+export function violateTreaty(ctx: EvalContext, nationId: string, treatyId: string): void {
   const treaty = ctx.content.treaties.get(treatyId);
   const n = ctx.state.nations[nationId];
   if (treaty === undefined || n === undefined) return;
-  const status = n.treaties[treatyId] ?? "nonparty";
-  if (status !== "signed" && status !== "ratified") return;
+  if (!isBoundBy(n.treaties[treatyId])) return;
   if (!treatyInForce(ctx.state, treaty.inForce, treaty.entersForceAtPhase)) return;
+  runTreatyHook(ctx, nationId, treatyId, "onViolation");
+}
+
+export function isBoundBy(status: PartyStatus | undefined): boolean {
+  return status === "signed" || status === "ratified";
+}
+
+/** Run one of a treaty's hooks with $actor = nationId. No status checks. */
+export function runTreatyHook(
+  ctx: EvalContext,
+  nationId: string,
+  treatyId: string,
+  hook: "onSign" | "onViolation" | "onWithdrawal",
+): void {
+  const treaty = ctx.content.treaties.get(treatyId);
+  if (treaty === undefined) return;
   if (ctx.depth >= MAX_HOOK_DEPTH) throw new LogicError(ctx.source, `treaty hooks nested deeper than ${MAX_HOOK_DEPTH}`);
-  applyEffects(withBindings(ctx, { actor: nationId }, treatyId), treaty.onViolation);
+  applyEffects(withBindings(ctx, { actor: nationId }, treatyId), treaty[hook]);
+}
+
+/** Shared by the `sanction` effect and the `sanction` order. Severity accumulates, capped at 100. */
+export function imposeSanction(ctx: EvalContext, bySide: string, againstId: string, severity: number): void {
+  const n = ctx.state.nations[againstId];
+  if (n === undefined) return;
+  n.sanctionsAgainst = Math.min(100, n.sanctionsAgainst + severity);
+  emitEvent(ctx.state, {
+    type: "sanction_imposed",
+    visibility: "public",
+    text: `${bySide} imposes sanctions on ${n.nationId}.`,
+    target: n.nationId,
+    data: { by: bySide, severity, source: ctx.source },
+  });
 }
 
 export function treatyInForce(state: GameState, inForce: boolean, entersForceAtPhase: PhaseId | undefined): boolean {
