@@ -11,6 +11,7 @@
     "e2e": "vite build && node e2e/smoke.mjs"
   },
   "dependencies": {
+    "@eschaton/ai": "0.1.0",
     "@eschaton/engine": "0.1.0",
     "pixi.js": "8.5.2",
     "react": "18.3.1",

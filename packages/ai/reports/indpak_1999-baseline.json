@@ -1,0 +1,78 @@
+{
+  "args": {
+    "games": 1000,
+    "workers": 4,
+    "scenario": "indpak_1999",
+    "label": "baseline",
+    "sets": []
+  },
+  "report": {
+    "games": 1000,
+    "outcomes": {
+      "india": {
+        "win": 0.685,
+        "loss": 0.018,
+        "draw": 0.297
+      },
+      "pakistan": {
+        "win": 0.116,
+        "loss": 0.587,
+        "draw": 0.297
+      }
+    },
+    "mutualLoss": 0.014,
+    "length": {
+      "mean": 47.978,
+      "median": 48,
+      "p10": 48,
+      "p90": 48,
+      "fullLength": 0.986
+    },
+    "reachedWar": 0.907,
+    "reachedLevel5": 0.806,
+    "nuclearUse": 0.275,
+    "anyWmd": 0.275,
+    "nuclearFirstUser": {
+      "india": 0,
+      "pakistan": 0.275
+    },
+    "meanAssaults": 19.408,
+    "meanCaptures": 11.538,
+    "meanConventionalStrikes": 12.151,
+    "triggerFireRate": {
+      "kargil_infiltration": 0.922,
+      "parliament_attack": 0.729
+    },
+    "planMix": {
+      "india": {
+        "assault": 0.10760126687781296,
+        "coerce": 0.028442240373395565,
+        "deescalate": 0.3791256876146024,
+        "nuclear": 0.00029171528588098014,
+        "posture": 0.10558009668278047,
+        "steady": 0.21370228371395233,
+        "strike": 0.16525670945157525
+      },
+      "pakistan": {
+        "assault": 0.09457826304384064,
+        "coerce": 0.0680530088348058,
+        "deescalate": 0.3212202033672279,
+        "nuclear": 0.00833472245374229,
+        "posture": 0.16794465744290715,
+        "steady": 0.2553758959826638,
+        "strike": 0.08449324887481247
+      }
+    },
+    "meanFinalStability": {
+      "india": 66.439,
+      "pakistan": 11.338
+    },
+    "endings": {
+      "india_deterrence_holds": 0.5730000000000004,
+      "none": 0.2970000000000002,
+      "india_deterrence_holds,pakistan_survives_and_gains": 0.11200000000000009,
+      "mutual_catastrophe": 0.014000000000000005,
+      "pakistan_survives_and_gains": 0.004
+    }
+  }
+}

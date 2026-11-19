@@ -83,6 +83,19 @@ describe("Session (the engine worker's core)", () => {
     }
   });
 
+  it("plays the AI seat itself once the human has moved", () => {
+    const s = new Session(bundle, "indpak_1999");
+    const start = s.newGame(5, ["pakistan"]);
+    expect(start.ai).toEqual(["pakistan"]);
+    expect(start.planning).toEqual(["india"]);
+    expect(() => s.submit({ nationId: "pakistan", turn: 0, orders: [] })).toThrow(/not playing/);
+    const r = s.submit({ nationId: "india", turn: 0, orders: [] });
+    expect(r.resolved).toEqual({ turn: 1 });
+    expect(r.waitingFor).toEqual(["india"]);
+    // The computer submitted orders, and step 1 accepted all of them.
+    expect(s.seat("pakistan").view.events.filter((e) => e.type === "order_rejected")).toEqual([]);
+  });
+
   it("keeps the full log closed until the game ends", () => {
     const s = new Session(bundle, "indpak_1999");
     s.newGame(1);

@@ -13,7 +13,8 @@
     "check": "npm run typecheck && npm run validate && npm run test",
     "dev": "npm run dev -w @eschaton/client",
     "build": "npm run build -w @eschaton/client",
-    "e2e": "npm run e2e -w @eschaton/client"
+    "e2e": "npm run e2e -w @eschaton/client",
+    "balance": "tsx tools/balance.ts"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

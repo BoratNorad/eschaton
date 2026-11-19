@@ -13,5 +13,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["packages/engine/src/**/*.ts", "packages/engine/test/**/*.ts", "tools/**/*.ts"]
+  "include": ["packages/engine/src/**/*.ts", "packages/engine/test/**/*.ts", "packages/ai/src/**/*.ts", "packages/ai/test/**/*.ts", "tools/**/*.ts"]
 }

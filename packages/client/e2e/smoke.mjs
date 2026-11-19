@@ -78,8 +78,25 @@ try {
   if (!(await page.getByTestId("cover").innerText()).includes("Atal Bihari Vajpayee")) fail("historical names toggle had no effect");
   await shot("turn4-cover");
 
+  // Single player: India against the computer, two turns.
+  await page.goto(url);
+  await page.getByLabel("Seed").fill("7");
+  await page.getByTestId("play-india").click();
+  for (let turn = 1; turn <= 2; turn++) {
+    await page.getByTestId("cover").waitFor();
+    const text = await page.getByTestId("cover").innerText();
+    if (!text.includes("India: your turn") || !text.includes("The computer leads Pakistan")) fail(`vs-AI cover wrong: ${text}`);
+    await page.getByTestId("take-seat").click();
+    await page.getByTestId("turn").filter({ hasText: `Turn ${turn} of` }).waitFor();
+    await page.getByLabel("Intelligence", { exact: true }).selectOption({ label: "Focus intelligence on Pakistan" });
+    await page.getByLabel("Intelligence", { exact: true }).locator("xpath=following-sibling::button").click();
+    await page.getByTestId("submit").click();
+  }
+  await page.getByTestId("cover").filter({ hasText: "Turn 3 begins" }).waitFor();
+  await shot("vs-ai-turn3-cover");
+
   if (problems.length > 0) fail(problems.join("\n"));
-  console.log(`e2e OK: 3 hotseat turns played. Screenshots in ${outDir}`);
+  console.log(`e2e OK: 3 hotseat turns and 2 turns against the computer played. Screenshots in ${outDir}`);
 } catch (e) {
   await shot("failure").catch(() => {});
   console.error(e instanceof Error ? e.message : e);

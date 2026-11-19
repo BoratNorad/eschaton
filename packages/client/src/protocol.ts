@@ -76,14 +76,14 @@ export interface TurnOutcome {
 }
 
 export type Request =
-  | { type: "new"; seed: number }
+  | { type: "new"; seed: number; /** Nations the AI plays. */ ai: string[] }
   | { type: "seat"; nationId: string }
   | { type: "check"; set: OrderSet }
   | { type: "submit"; set: OrderSet }
   | { type: "reveal" };
 
 export type Response =
-  | { type: "new"; info: GameInfo; turn: number; planning: string[] }
+  | { type: "new"; info: GameInfo; turn: number; planning: string[]; ai: string[] }
   | { type: "seat"; data: SeatData }
   | { type: "check"; result: OrderSetCheck }
   | { type: "submit"; waitingFor: string[]; resolved?: TurnOutcome }

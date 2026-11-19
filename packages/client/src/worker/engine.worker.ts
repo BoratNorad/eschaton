@@ -13,7 +13,7 @@ function handle(req: Request): Response {
   session ??= new Session(loadBundledContent(), SCENARIO);
   switch (req.type) {
     case "new":
-      return session.newGame(req.seed);
+      return session.newGame(req.seed, req.ai);
     case "seat":
       return { type: "seat", data: session.seat(req.nationId) };
     case "check":

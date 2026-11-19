@@ -41,6 +41,8 @@ export function App() {
   const [error, setError] = useState<string | null>(null);
   const [historical, setHistorical] = useState(loadHistoricalNames);
   const [seed, setSeed] = useState(() => String(Math.floor(Math.random() * 1_000_000)));
+  /** Nations the AI plays this game. Empty = hotseat. */
+  const [aiSeats, setAiSeats] = useState<string[]>([]);
 
   useEffect(() => {
     client.current = new EngineClient();
@@ -72,10 +74,11 @@ export function App() {
     }
   }
 
-  async function newGame() {
+  async function newGame(ai: string[]) {
     const s = Number.parseInt(seed, 10);
     await run(async () => {
-      const r = await client.current!.call({ type: "new", seed: Number.isFinite(s) ? s >>> 0 : 1 });
+      const r = await client.current!.call({ type: "new", seed: Number.isFinite(s) ? s >>> 0 : 1, ai });
+      setAiSeats(r.ai);
       setInfo(r.info);
       setTurn(r.turn);
       setPhase({ kind: "cover", nationId: r.planning[0]!, note: "A new crisis begins." });
@@ -151,23 +154,40 @@ export function App() {
 
       {phase.kind === "title" && (
         <main className="center">
-          <p className="lede">Two new nuclear powers. One disputed mountain region. Each of you leads a side. Take turns at this screen.</p>
+          <p className="lede">Two new nuclear powers. One disputed mountain region. Lead one side against the computer, or both sides with a friend at this screen.</p>
           <label>
             Seed <input value={seed} onChange={(e) => setSeed(e.target.value.replace(/\D/g, ""))} inputMode="numeric" aria-label="Seed" />
           </label>
-          <button type="button" className="primary" onClick={newGame} disabled={busy} data-testid="new-game">
-            New hotseat game
-          </button>
+          <div className="modes">
+            <button type="button" className="primary" onClick={() => newGame(["pakistan"])} disabled={busy} data-testid="play-india">
+              Play India against the computer
+            </button>
+            <button type="button" className="primary" onClick={() => newGame(["india"])} disabled={busy} data-testid="play-pakistan">
+              Play Pakistan against the computer
+            </button>
+            <button type="button" onClick={() => newGame([])} disabled={busy} data-testid="new-game">
+              Two players, one screen
+            </button>
+          </div>
         </main>
       )}
 
       {phase.kind === "cover" && (
         <main className="center cover" data-testid="cover">
           {phase.note && <p>{phase.note}</p>}
-          <h2>Pass the device to {nation(phase.nationId)?.name}</h2>
-          <p className="hint">
-            {leaderName(nation(phase.nationId))}. The other player should look away.
-          </p>
+          {aiSeats.length === 0 ? (
+            <>
+              <h2>Pass the device to {nation(phase.nationId)?.name}</h2>
+              <p className="hint">{leaderName(nation(phase.nationId))}. The other player should look away.</p>
+            </>
+          ) : (
+            <>
+              <h2>{nation(phase.nationId)?.name}: your turn</h2>
+              <p className="hint">
+                {leaderName(nation(phase.nationId))}. The computer leads {aiSeats.map((id) => nation(id)?.name).join(" and ")}.
+              </p>
+            </>
+          )}
           <button type="button" className="primary" onClick={() => takeSeat(phase.nationId)} disabled={busy} data-testid="take-seat">
             I am {nation(phase.nationId)?.name}: show my turn
           </button>

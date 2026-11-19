@@ -20,7 +20,8 @@ packages/engine/      Pure simulation. No I/O, no DOM, no network. Runs in brows
 packages/server/      (planned) Node + Colyseus. Authoritative engine host, lobbies, chat, AI seat-fill
 packages/client/      React UI + PixiJS map. The engine runs in a Web Worker (src/worker/session.ts holds
                       the only GameState); the UI thread gets PlayerViews, menus and names only
-packages/ai/          (planned) Utility AI driven by leader stats; headless harness
+packages/ai/          Fair utility AI (decides from its PlayerView only) + headless balance harness;
+                      reports in packages/ai/reports/
 data/                 Game content as JSON, one object per file, file name = id
 tools/                Node-only scripts (fs allowed here, never in the engine)
 ```
@@ -34,7 +35,8 @@ npm run build:distances  regenerate greatCircleKm tables in /data/maps (commit t
 npm run test             vitest
 npm run check            all of the above; run before finishing any task
 npm run dev              hotseat client (Vite dev server)
-npm run e2e              build the client and play 3 hotseat turns in headless Chromium
+npm run e2e              build the client and play hotseat and vs-computer turns in headless Chromium
+npm run balance          AI-vs-AI games (default 1000); --set path=value for what-if runs
 ```
 
 ## Hard rules for the engine (packages/engine)
@@ -129,11 +131,11 @@ failure rates, never as instructions.
 
 ## Build plan (vertical slices; finish each end to end before starting the next)
 
-1. **Engine core for `indpak_1999`** ← current slice
+1. **Engine core for `indpak_1999`** (done)
    - `createGame`, `resolveTurn` steps 1-12, `Condition`/`Effect` evaluators, `viewFor`
    - Golden replay and determinism tests
    - Minimal hotseat client: map, tension ladder, order panel, event feed
-2. AI opponent (utility scores weighted by leader stats; crisis lookahead) + balance harness
+2. AI opponent (utility scores weighted by leader stats; crisis lookahead) + balance harness ← current slice
 3. Server: Colyseus rooms, lobbies, chat channels (public, coalition, private), AI seat-fill,
    reconnection, async and timed turns; deploy to Render (web service + static site + Postgres)
 4. Remaining coalitions, campaign phases, proliferation, non-state actors

@@ -1,3 +1,4 @@
+import { chooseOrders } from "@eschaton/ai";
 import {
   checkOrderSet, createGame, legalOrders, resolveTurn, revealAll, viewFor,
   type ContentBundle, type GameEvent, type GameState, type OrderSet, type PlayerView,
@@ -15,17 +16,21 @@ const FALLBACK_COLORS = ["#4c8fd6", "#c45bd0", "#d0b13a", "#5bc0be"];
 export class Session {
   private state: GameState | undefined;
   private pending = new Map<string, OrderSet>();
+  private ai = new Set<string>();
+  private seed = 0;
 
   constructor(
     private readonly content: ContentBundle,
     private readonly scenarioId: string,
   ) {}
 
-  newGame(seed: number): Extract<Response, { type: "new" }> {
+  newGame(seed: number, ai: readonly string[] = []): Extract<Response, { type: "new" }> {
     const scenario = this.content.scenarios.find((s) => s.id === this.scenarioId);
     if (!scenario) throw new Error(`unknown scenario ${this.scenarioId}`);
     this.state = createGame(this.content, scenario, seed);
     this.pending.clear();
+    this.seed = seed;
+    this.ai = new Set(ai.filter((id) => this.state!.nations[id] !== undefined));
     const map = this.content.maps.find((m) => m.id === scenario.mapId)!;
     const nations: NationInfo[] = [...scenario.nations].sort().map((id, i) => {
       const n = this.content.nations.find((x) => x.id === id)!;
@@ -43,16 +48,16 @@ export class Session {
       regions: map.regions.map((r) => ({ id: r.id, name: r.name, terrain: r.terrain, lat: r.displayCentroid[0], lon: r.displayCentroid[1] })),
       links: map.links.map((l) => ({ from: l.from, to: l.to, mode: l.mode })),
     };
-    return { type: "new", info, turn: this.state.turn, planning: this.planning() };
+    return { type: "new", info, turn: this.state.turn, planning: this.planning(), ai: [...this.ai].sort() };
   }
 
-  /** Nations that still have to submit orders this turn, in planning order. */
+  /** Human seats that still have to submit orders this turn, in planning order. */
   planning(): string[] {
     const s = this.require();
     if (s.result) return [];
     return Object.keys(s.nations)
       .sort()
-      .filter((id) => s.nations[id]!.active && !this.pending.has(id));
+      .filter((id) => s.nations[id]!.active && !this.pending.has(id) && !this.ai.has(id));
   }
 
   seat(nationId: string): SeatData {
@@ -81,6 +86,13 @@ export class Session {
     const waitingFor = this.planning();
     if (waitingFor.length > 0) return { type: "submit", waitingFor };
 
+    // Every human has moved: the AI seats decide now, each from its own view only.
+    const scenario = this.content.scenarios.find((x) => x.id === this.scenarioId)!;
+    for (const id of [...this.ai].sort()) {
+      if (!s.nations[id]!.active) continue;
+      const orders = chooseOrders(this.content, scenario, viewFor(this.content, s, id), { gameSeed: this.seed });
+      this.pending.set(id, { nationId: id, turn: s.turn, orders });
+    }
     const sets = [...this.pending.values()];
     this.pending.clear();
     this.state = resolveTurn(this.content, s, sets).state;
