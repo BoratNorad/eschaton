@@ -27,6 +27,18 @@ export interface Turn {
   readonly intelFocus: Map<string, string>;
 }
 
+/**
+ * Build a Turn over `state`. resolveTurn passes its clone; read-only callers
+ * (legalOrders, checkOrderSet) pass the input, and must only read it.
+ */
+export function makeTurn(idx: ContentIndex, state: GameState): Turn {
+  const scenario = idx.scenarios.get(state.scenarioId);
+  if (scenario === undefined) throw new Error(`unknown scenario ${state.scenarioId}`);
+  const map = idx.maps.get(scenario.mapId);
+  if (map === undefined) throw new Error(`unknown map ${scenario.mapId}`);
+  return { idx, scenario, map, state, orders: [], intelFocus: new Map() };
+}
+
 export function ordersOf<K extends OrderKind>(t: Turn, kind: K): Array<AcceptedOrder<K>> {
   const out: Array<AcceptedOrder<K>> = [];
   // The kind check makes the narrowing sound; TS cannot see it through the generic.

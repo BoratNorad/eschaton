@@ -13,7 +13,7 @@ import { resolveStrikes } from "./steps/strikes.js";
 import { resolveTriggers } from "./steps/triggers.js";
 import { resolveUpkeep } from "./steps/upkeep.js";
 import { validateOrders } from "./steps/validate.js";
-import type { Turn } from "./turn.js";
+import { makeTurn } from "./turn.js";
 
 /**
  * Resolve one WEGO turn. Pure: the input state is cloned once and never
@@ -22,15 +22,9 @@ import type { Turn } from "./turn.js";
  */
 export function resolveTurn(content: ContentBundle, input: GameState, orders: readonly OrderSet[]): TurnResult {
   if (input.result !== undefined) throw new Error(`game ended at turn ${input.result.endedAtTurn}`);
-  const idx = indexContent(content);
-  const scenario = idx.scenarios.get(input.scenarioId);
-  if (scenario === undefined) throw new Error(`unknown scenario ${input.scenarioId}`);
-  const map = idx.maps.get(scenario.mapId);
-  if (map === undefined) throw new Error(`unknown map ${scenario.mapId}`);
-
   const state = structuredClone(input);
   const firstSeq = state.nextEventSeq;
-  const t: Turn = { idx, scenario, map, state, orders: [], intelFocus: new Map() };
+  const t = makeTurn(indexContent(content), state);
 
   t.orders = validateOrders(t, orders); //   1
   resolveDiplomacy(t); //                    2

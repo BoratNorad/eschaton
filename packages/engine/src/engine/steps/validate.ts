@@ -71,9 +71,9 @@ export function validateOrders(t: Turn, submitted: readonly unknown[]): Accepted
     seen.add(set.nationId);
     if (set.turn !== state.turn) { reject(`orders are for turn ${set.turn}, not ${state.turn}`); continue; }
 
-    const usage = newUsage();
+    const reasons = judgeOrders(t, set.nationId, set.orders);
     set.orders.forEach((order, index) => {
-      const reason = checkOrder(t, set.nationId, n, order, usage);
+      const reason = reasons[index]!;
       if (reason === null) {
         accepted.push({ nationId: set.nationId, index, order });
       } else {
@@ -88,8 +88,25 @@ export function validateOrders(t: Turn, submitted: readonly unknown[]): Accepted
   return accepted;
 }
 
+/**
+ * Judge one nation's orders in submission order, sharing per-turn budgets.
+ * Returns null (accepted) or a reason for each order. Reads t.state only.
+ * The nation must be in the game and active.
+ */
+export function judgeOrders(t: Turn, nationId: string, orders: readonly Order[]): Array<string | null> {
+  const n = t.state.nations[nationId];
+  if (n === undefined || !n.active) throw new Error(`${nationId} is not playing`);
+  const usage = newUsage();
+  return orders.map((o) => checkOrder(t, nationId, n, o, usage));
+}
+
+/** One order on its own, with a fresh budget. */
+export function judgeOrder(t: Turn, nationId: string, n: NationState, order: Order): string | null {
+  return checkOrder(t, nationId, n, order, newUsage());
+}
+
 /** Null if legal (and charges the budget), else a short reason. */
-export function checkOrder(t: Turn, nationId: string, n: NationState, order: Order, u: Usage): string | null {
+function checkOrder(t: Turn, nationId: string, n: NationState, order: Order, u: Usage): string | null {
   const { state } = t;
   const rival = (id: string): string | null => {
     if (id === nationId) return "cannot target yourself";
