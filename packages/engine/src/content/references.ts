@@ -101,6 +101,94 @@ export function collectEffectRefs(e: Effect, refs: Refs = emptyRefs()): Refs {
   return refs;
 }
 
+// ----- Binding availability -------------------------------------------------
+// Each place logic runs binds a fixed set of names. Using any other `$` ref
+// would throw LogicError mid-game, so validation rejects it up front.
+
+export type BindingName = "self" | "actor" | "target";
+
+/** Every binding a condition uses ($x and $x_side both count as x). */
+export function collectConditionBindings(c: Condition, out: Set<BindingName> = new Set()): Set<BindingName> {
+  const use = (r: string | undefined) => addBinding(out, r);
+  switch (c.kind) {
+    case "all":
+    case "any":
+      c.of.forEach((x) => collectConditionBindings(x, out));
+      break;
+    case "not":
+      collectConditionBindings(c.cond, out);
+      break;
+    case "tension_at_least":
+      c.pair.forEach(use);
+      break;
+    case "stat_at_least":
+    case "stat_at_most":
+    case "metric_at_least":
+    case "metric_at_most":
+    case "member_of":
+    case "controls_region":
+    case "treaty_status":
+      use(c.nation);
+      break;
+    case "event_occurred":
+      use(c.actor);
+      use(c.target);
+      break;
+    default:
+      break;
+  }
+  return out;
+}
+
+export function collectEffectBindings(e: Effect, out: Set<BindingName> = new Set()): Set<BindingName> {
+  const use = (r: string | undefined) => addBinding(out, r);
+  switch (e.kind) {
+    case "raise_tension":
+    case "lower_tension":
+    case "add_pressure":
+      e.pair.forEach(use);
+      break;
+    case "stat_roll":
+      use(e.nation);
+      e.onPass.forEach((x) => collectEffectBindings(x, out));
+      e.onFail.forEach((x) => collectEffectBindings(x, out));
+      break;
+    case "modify_stat":
+    case "stability_shock":
+    case "unlock_action":
+    case "expose_program":
+    case "violate_treaty":
+      use(e.nation);
+      break;
+    case "emit_event":
+      use(e.actor);
+      use(e.target);
+      break;
+    case "sanction":
+      use(e.by);
+      use(e.against);
+      break;
+    default:
+      break;
+  }
+  return out;
+}
+
+function addBinding(out: Set<BindingName>, ref: string | undefined): void {
+  if (ref === undefined || !ref.startsWith("$")) return;
+  out.add(ref.slice(1).replace(/_side$/, "") as BindingName);
+}
+
+function checkBindings(
+  err: (where: string, msg: string) => void,
+  where: string,
+  used: Set<BindingName>,
+  allowed: readonly BindingName[],
+): void {
+  const bound = allowed.length === 0 ? "nothing is bound" : `only ${allowed.map((a) => `$${a}`).join(", ")} bound`;
+  for (const name of [...used].sort()) if (!allowed.includes(name)) err(where, `uses $${name}, but ${bound} here`);
+}
+
 export function validateReferences(b: ContentBundle): string[] {
   const errors: string[] = [];
   const err = (where: string, msg: string) => errors.push(`${where}: ${msg}`);
@@ -179,7 +267,10 @@ export function validateReferences(b: ContentBundle): string[] {
     }
     if (n.nuclear.warheads > 0 && !n.delivery.some((d) => d.payloads.includes("nuclear")))
       err(w, "has warheads but no nuclear-capable delivery system");
-    for (const o of n.objectives) checkRefs(`${w} objective ${o.id}`, collectConditionRefs(o.satisfiedWhen));
+    for (const o of n.objectives) {
+      checkRefs(`${w} objective ${o.id}`, collectConditionRefs(o.satisfiedWhen));
+      checkBindings(err, `${w} objective ${o.id}`, collectConditionBindings(o.satisfiedWhen), ["self"]);
+    }
     for (const d of n.conventional.deployments)
       if (!allRegions.has(d.regionId)) err(w, `deployment: unknown region "${d.regionId}"`);
   }
@@ -198,13 +289,23 @@ export function validateReferences(b: ContentBundle): string[] {
   // --- treaties, triggers, pipelines, non-state -----------------------------------
   for (const t of b.treaties) {
     for (const p of Object.keys(t.parties)) if (!nations.has(p)) err(`treaty ${t.id}`, `unknown party "${p}"`);
-    for (const e of [...t.onSign, ...t.onViolation, ...t.onWithdrawal]) checkRefs(`treaty ${t.id}`, collectEffectRefs(e));
+    for (const e of [...t.onSign, ...t.onViolation, ...t.onWithdrawal]) {
+      checkRefs(`treaty ${t.id}`, collectEffectRefs(e));
+      checkBindings(err, `treaty ${t.id}`, collectEffectBindings(e), ["actor"]);
+    }
   }
   for (const t of b.triggers) {
     const w = `trigger ${t.id}`;
     if (t.pair) checkRefs(w, (() => { const r = emptyRefs(); t.pair!.forEach((s) => addSide(r, s)); return r; })());
     checkRefs(w, collectConditionRefs(t.when));
     for (const e of t.effects) checkRefs(w, collectEffectRefs(e));
+    const bound: BindingName[] = [];
+    if (t.bindings.actor) bound.push("actor");
+    if (t.bindings.target) bound.push("target");
+    const used = collectConditionBindings(t.when);
+    for (const e of t.effects) collectEffectBindings(e, used);
+    t.pair?.forEach((r) => addBinding(used, r));
+    checkBindings(err, w, used, bound);
     if (t.bindings.actor && !nations.has(t.bindings.actor)) err(w, `binding actor: unknown nation "${t.bindings.actor}"`);
     if (t.bindings.target && !nations.has(t.bindings.target)) err(w, `binding target: unknown nation "${t.bindings.target}"`);
   }
@@ -213,13 +314,20 @@ export function validateReferences(b: ContentBundle): string[] {
     if (p.supplier !== "market" && !nations.has(p.supplier)) err(w, `unknown supplier "${p.supplier}"`);
     for (const r of p.eligibleRecipients) if (!nations.has(r)) err(w, `unknown recipient "${r}"`);
     if (p.counterTreatyId && !treaties.has(p.counterTreatyId)) err(w, `unknown counter treaty "${p.counterTreatyId}"`);
-    for (const e of p.onDetected) checkRefs(w, collectEffectRefs(e));
+    for (const e of p.onDetected) {
+      checkRefs(w, collectEffectRefs(e));
+      checkBindings(err, w, collectEffectBindings(e), ["actor", "target"]);
+    }
   }
   for (const a of b.nonstate) {
     const w = `nonstate ${a.id}`;
     for (const r of a.operatingRegions) if (!allRegions.has(r)) err(w, `unknown region "${r}"`);
     checkRefs(w, collectConditionRefs(a.spawn.when));
-    for (const e of a.attackEffects) checkRefs(w, collectEffectRefs(e));
+    checkBindings(err, `${w} spawn`, collectConditionBindings(a.spawn.when), []);
+    for (const e of a.attackEffects) {
+      checkRefs(w, collectEffectRefs(e));
+      checkBindings(err, w, collectEffectBindings(e), ["target"]);
+    }
   }
 
   // --- scenarios --------------------------------------------------------------------
@@ -241,9 +349,20 @@ export function validateReferences(b: ContentBundle): string[] {
     for (const id of s.pipelines) if (!b.pipelines.some((p) => p.id === id)) err(w, `unknown pipeline "${id}"`);
     for (const id of s.nonStateActors) if (!actors.has(id)) err(w, `unknown non-state actor "${id}"`);
     for (const h of s.humanSeats) if (!s.nations.includes(h)) err(w, `human seat "${h}" is not a scenario nation`);
-    for (const t of s.initialTensions) checkRefs(w, (() => { const r = emptyRefs(); t.pair.forEach((x) => addSide(r, x)); return r; })());
-    for (const p of s.phaseTransitions) checkRefs(w, collectConditionRefs(p.when));
-    for (const v of s.victory) checkRefs(`${w} victory ${v.id}`, collectConditionRefs(v.when));
+    for (const t of s.initialTensions) {
+      checkRefs(w, (() => { const r = emptyRefs(); t.pair.forEach((x) => addSide(r, x)); return r; })());
+      const used = new Set<BindingName>();
+      t.pair.forEach((x) => addBinding(used, x));
+      checkBindings(err, `${w} initialTensions`, used, []);
+    }
+    for (const p of s.phaseTransitions) {
+      checkRefs(w, collectConditionRefs(p.when));
+      checkBindings(err, `${w} phase transition to ${p.to}`, collectConditionBindings(p.when), []);
+    }
+    for (const v of s.victory) {
+      checkRefs(`${w} victory ${v.id}`, collectConditionRefs(v.when));
+      checkBindings(err, `${w} victory ${v.id}`, collectConditionBindings(v.when), []);
+    }
   }
 
   return errors;
