@@ -1,6 +1,9 @@
 export * from "./schema/index.js";
 export * from "./content/bundle.js";
 export * from "./content/references.js";
+export * from "./content/index-content.js";
+export * from "./logic/evaluate.js";
+export { createGame } from "./engine/createGame.js";
 export * from "./util/determinism.js";
 export * from "./rng.js";
 export type { Engine, TurnResult } from "./api.js";

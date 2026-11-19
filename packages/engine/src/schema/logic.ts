@@ -25,8 +25,8 @@ import {
 // transitions and victory conditions are all written in this small language,
 // so designers add events as data, never as engine code.
 //
-// Evaluation lives in src/logic/evaluate.ts (not yet written). Every new
-// `kind` added here needs a handler there and a unit test.
+// Evaluation lives in src/logic/ (condition.ts, effect.ts; evaluate.ts is the
+// entry point). Every new `kind` added here needs a handler there and a unit test.
 // ---------------------------------------------------------------------------
 
 /** A nation id, or a binding filled in at evaluation time. */
