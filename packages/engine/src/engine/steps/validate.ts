@@ -1,5 +1,6 @@
 import { emitEvent } from "../../logic/events.js";
 import { isBoundBy, treatyInForce } from "../../logic/effect.js";
+import { effectiveStat } from "../../logic/values.js";
 import { sortedEntries } from "../../util/determinism.js";
 import { OrderSet, type GameState, type NationState, type Order } from "../../schema/index.js";
 import { RULES, UNLOCK_COERCIVE_MOBILIZATION } from "../rules.js";
@@ -261,7 +262,10 @@ function checkStrike(t: Turn, nationId: string, n: NationState, o: OrderOf<"stri
   const level = tensionLevel(state, n.side, owner.side);
   const wmd = o.payload !== "conventional";
   if (level < RULES.warLevel) return `strikes need tension level ${RULES.warLevel} or higher`;
-  if (wmd && level < RULES.wmdLevel) return `WMD use needs tension level ${RULES.wmdLevel}`;
+  if (wmd && level < RULES.wmdLevel) {
+    const earlyChemical = o.payload === "chemical" && effectiveStat(state, n, "esc") <= RULES.chemicalAtWarMaxEsc;
+    if (!earlyChemical) return `WMD use needs tension level ${RULES.wmdLevel}`;
+  }
 
   const system = nationContent(t, nationId).delivery.find((d) => d.id === o.deliveryId);
   if (system === undefined) return `unknown delivery system ${o.deliveryId}`;

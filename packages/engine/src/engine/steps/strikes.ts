@@ -92,6 +92,16 @@ export function resolveStrikes(t: Turn): void {
       if (!wmdBefore) firstUsers.add(nationId);
     }
 
+    // Compendium: each WMD use moves every OTHER pair up one level.
+    if (wmd) {
+      const own = pairKey(att.side, def.side);
+      for (const [key] of sortedEntries(state.tensions)) {
+        if (key === own) continue;
+        const [a, b] = key.split("|") as [string, string];
+        shiftTension(state, a, b, 1, "wmd_spillover");
+      }
+    }
+
     const floor = wmd ? RULES.wmdLevel : RULES.warLevel;
     const level = tensionLevel(state, att.side, def.side);
     if (level < floor) shiftTension(state, att.side, def.side, floor - level, "strike");

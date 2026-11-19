@@ -186,6 +186,34 @@ describe("steps 4-5: movement and strikes", () => {
     expect(() => run(state, {})).toThrow(/game ended/);
   });
 
+  it("chemical use opens at Conventional war only for low-ESC leaders", () => {
+    const strike = { kind: "strike", targetId: "lahore", deliveryId: "mirage_2000_in", payload: "chemical", count: 1 } as const;
+    const s = atLevel(4, (x) => (x.nations.india!.alert = 4));
+    // No Indian system carries chemical payloads in content; give the Mirage one for this test.
+    const content = structuredClone(noTriggers);
+    content.nations.find((n) => n.id === "india")!.delivery.find((d) => d.id === "mirage_2000_in")!.payloads.push("chemical");
+    expect(rejections(run(s, { india: [strike] }, content).state)).toEqual(["WMD use needs tension level 5"]);
+    s.nations.india!.modifiers.push({ stat: "esc", delta: -5, untilTurn: 5, source: "test" }); // esc 8 -> 3
+    const { state } = run(s, { india: [strike] }, content);
+    expect(rejections(state)).toEqual([]);
+    expect(types(state)).toContain("wmd_use");
+    expect(tension(state).level).toBe(5); // chemical release is the WMD threshold
+  });
+
+  it("each WMD use moves every other pair up one level", () => {
+    const s = atLevel(5, (x) => {
+      x.nations.india!.alert = 1;
+      x.tensions["AMNAT|india"] = { level: 2, pressure: 0, lastIncidentTurn: -1 };
+      x.tensions["AMNAT|pakistan"] = { level: 4, pressure: 0, lastIncidentTurn: -1 };
+    });
+    const { state } = run(s, {
+      india: [{ kind: "strike", targetId: "kahuta", deliveryId: "agni_ii", payload: "nuclear", count: 1 }],
+    }, noTriggers);
+    expect(state.tensions["AMNAT|india"]!.level).toBe(3);
+    expect(state.tensions["AMNAT|pakistan"]!.level).toBe(5);
+    expect(state.tensions["india|pakistan"]!.level).toBe(5);
+  });
+
   it("striking a listed nuclear installation violates the 1988 agreement", () => {
     const s = atLevel(4);
     const { state } = run(s, {

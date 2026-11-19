@@ -23,6 +23,8 @@ export const RULES = {
   warLevel: 4,
   /** WMD payloads allowed only here. */
   wmdLevel: 5,
+  /** Compendium: at Conventional war, chemical use becomes possible for leaders with effective ESC at or below this. */
+  chemicalAtWarMaxEsc: 3,
   /** Nuclear payloads also need alert at or below this. */
   nuclearAlertMax: 2,
 
