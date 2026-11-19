@@ -10,7 +10,7 @@ import { sortedEntries } from "../util/determinism.js";
  *   about them, the status of sites the viewer knows about, and metro damage
  *   (cities are public). Stability is shown only for nations on the viewer's side.
  *   Never true warheads, stockpiles, forces, covert sites or treaty violations.
- * - tensions: the whole ladder (public).
+ * - tensions: the whole ladder (public). control: who holds each region (public).
  * - events: public ones, plus private/coalition events whose audience includes
  *   the viewer. Hidden events never appear.
  *
@@ -40,6 +40,9 @@ export function viewFor(_content: ContentBundle, state: GameState, nationId: str
     others[id] = entry;
   }
 
+  const control: PlayerView["control"] = {};
+  for (const [id, n] of sortedEntries(state.nations)) for (const r of n.regionsControlled) control[r] = id;
+
   return {
     viewer: nationId,
     turn: state.turn,
@@ -47,6 +50,7 @@ export function viewFor(_content: ContentBundle, state: GameState, nationId: str
     self: structuredClone(self),
     others,
     tensions: structuredClone(state.tensions),
+    control,
     events: state.events.filter((e) => canSee(e, nationId)).map((e) => structuredClone(e)),
   };
 }

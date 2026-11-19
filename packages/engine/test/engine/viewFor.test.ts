@@ -95,3 +95,15 @@ describe("revealAll", () => {
     expect(r.events.length).toBe(s.events.length);
   });
 });
+
+describe("viewFor: region control", () => {
+  it("shows who holds every region, matching the true state", () => {
+    const s = newGame(1);
+    s.nations.pakistan!.regionsControlled = s.nations.pakistan!.regionsControlled.filter((r) => r !== "punjab_pk");
+    s.nations.india!.regionsControlled.push("punjab_pk");
+    const v = viewFor(bundle, s, "pakistan");
+    expect(v.control.punjab_pk).toBe("india");
+    expect(v.control.sindh).toBe("pakistan");
+    expect(v.control).not.toHaveProperty("arabian_sea");
+  });
+});

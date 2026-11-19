@@ -153,6 +153,8 @@ export const PlayerView = z
         .strict(),
     ),
     tensions: z.record(z.string(), TensionState),
+    /** region id -> controlling nation id, for every controlled region. Public: the front line is visible. */
+    control: z.record(Slug, Slug),
     events: z.array(GameEvent),
   })
   .strict();

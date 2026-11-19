@@ -2,6 +2,7 @@ export * from "./schema/index.js";
 export * from "./content/bundle.js";
 export * from "./content/references.js";
 export * from "./content/index-content.js";
+export * from "./content/parse.js";
 export * from "./logic/evaluate.js";
 export { createGame } from "./engine/createGame.js";
 export { resolveTurn } from "./engine/resolveTurn.js";
