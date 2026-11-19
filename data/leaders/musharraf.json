@@ -1,0 +1,13 @@
+{
+  "id": "musharraf",
+  "name": "Pervez Musharraf",
+  "alias": "General Rashid Kamal",
+  "title": "Chief Executive, later President",
+  "snapshot": { "from": 1999, "to": 2002 },
+  "stats": { "agg": 7, "esc": 4, "par": 7, "blf": 7, "loy": 6, "dom": 6, "ctl": 5 },
+  "traits": [
+    { "id": "stated_thresholds", "params": { "escDropPerThreshold": 2 } },
+    { "id": "khan_network", "params": { "leakagePerTurn": 2 } }
+  ],
+  "profile": "Commando-trained risk-taker. Planned the 1999 Kargil operation as army chief with limited civilian oversight, then took power in a coup. Pivoted toward the US after 2001."
+}

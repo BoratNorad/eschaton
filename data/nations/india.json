@@ -1,0 +1,89 @@
+{
+  "id": "india",
+  "name": "India",
+  "leaderId": "vajpayee",
+  "snapshotYear": 2001,
+  "coalition": { "id": "INDPAK", "role": "core" },
+  "capitalMetroId": "delhi",
+  "metros": [
+    { "id": "mumbai", "name": "Mumbai", "regionId": "maharashtra", "populationK": 16400, "economicWeight": 12 },
+    { "id": "delhi", "name": "Delhi", "regionId": "delhi_ncr", "populationK": 12800, "economicWeight": 8, "isCapital": true },
+    { "id": "kolkata", "name": "Kolkata", "regionId": "bengal_odisha", "populationK": 13200, "economicWeight": 6 },
+    { "id": "chennai", "name": "Chennai", "regionId": "tamil_nadu", "populationK": 6400, "economicWeight": 5 },
+    { "id": "bangalore", "name": "Bangalore", "regionId": "deccan", "populationK": 5700, "economicWeight": 5 },
+    { "id": "hyderabad_in", "name": "Hyderabad", "regionId": "deccan", "populationK": 5700, "economicWeight": 4 },
+    { "id": "ahmedabad", "name": "Ahmedabad", "regionId": "gujarat", "populationK": 4500, "economicWeight": 4 }
+  ],
+  "sites": [
+    { "id": "south_block", "name": "South Block", "regionId": "delhi_ncr", "kinds": ["leadership"], "hardness": 3, "discovery": "public", "value": 95 },
+    { "id": "pokhran_range", "name": "Pokhran test range", "regionId": "rajasthan", "kinds": ["test_site"], "hardness": 1, "discovery": "public", "value": 40 },
+    { "id": "barc_trombay", "name": "Bhabha Atomic Research Centre, Trombay", "regionId": "maharashtra", "kinds": ["weapons_lab", "reactor", "reprocessing"], "hardness": 3, "discovery": "public", "value": 90 },
+    { "id": "rattehalli", "name": "Rattehalli enrichment plant", "regionId": "deccan", "kinds": ["enrichment"], "hardness": 3, "discovery": "public", "value": 70 },
+    { "id": "drdo_hyderabad", "name": "DRDO missile complex, Hyderabad", "regionId": "deccan", "kinds": ["industrial"], "hardness": 2, "discovery": "public", "value": 60 },
+    { "id": "wheeler_island", "name": "Wheeler Island test range", "regionId": "bengal_odisha", "kinds": ["launch_center"], "hardness": 1, "discovery": "public", "value": 35 },
+    { "id": "gwalior_air_base", "name": "Gwalior air base", "regionId": "central_india", "kinds": ["air_base"], "hardness": 4, "discovery": "public", "value": 65 },
+    { "id": "ambala_air_base", "name": "Ambala air base", "regionId": "punjab_haryana", "kinds": ["air_base"], "hardness": 4, "discovery": "public", "value": 60 },
+    { "id": "northern_command", "name": "Northern Command, Udhampur", "regionId": "jammu_kashmir", "kinds": ["army_base", "command_bunker"], "hardness": 5, "discovery": "public", "value": 70 },
+    {
+      "id": "india_cw_depot",
+      "name": "Undisclosed chemical depot",
+      "regionId": "central_india",
+      "kinds": ["cw_storage"],
+      "hardness": 4,
+      "discovery": "covert",
+      "value": 30,
+      "notes": "Location is a game placeholder; the real sites were not public."
+    }
+  ],
+  "nuclear": { "status": "declared_arsenal", "warheads": 35, "progressBp": 0, "progressPerTurnBp": 150, "testsConducted": 6 },
+  "chemical": { "status": "stockpile", "stockpileTonnes": 1000, "agentClasses": ["blister"], "productionTonnesPerTurn": 0 },
+  "biological": { "status": "none", "capability": 0 },
+  "radiological": { "capability": 1, "accidentRiskBp": 5 },
+  "delivery": [
+    { "id": "prithvi_ii", "name": "Prithvi-II", "kind": "srbm", "count": 30, "rangeKm": 250, "payloads": ["conventional", "nuclear"], "survivability": 6, "readyTurns": 1 },
+    { "id": "agni_i", "name": "Agni-I", "kind": "mrbm", "count": 4, "rangeKm": 700, "payloads": ["conventional", "nuclear"], "survivability": 5, "readyTurns": 2 },
+    { "id": "agni_ii", "name": "Agni-II", "kind": "irbm", "count": 4, "rangeKm": 2000, "payloads": ["nuclear"], "survivability": 5, "readyTurns": 2 },
+    { "id": "mirage_2000_in", "name": "Mirage 2000", "kind": "strike_aircraft", "count": 40, "rangeKm": 1500, "payloads": ["conventional", "nuclear"], "basingSiteIds": ["gwalior_air_base"], "survivability": 3, "readyTurns": 0 },
+    { "id": "jaguar_in", "name": "Jaguar", "kind": "strike_aircraft", "count": 80, "rangeKm": 900, "payloads": ["conventional", "nuclear"], "basingSiteIds": ["ambala_air_base"], "survivability": 3, "readyTurns": 0 }
+  ],
+  "conventional": {
+    "army": 80,
+    "air": 70,
+    "navy": 60,
+    "deployments": [
+      { "regionId": "jammu_kashmir", "strength": 30 },
+      { "regionId": "punjab_haryana", "strength": 25 },
+      { "regionId": "rajasthan", "strength": 20 },
+      { "regionId": "ladakh_kargil", "strength": 8 }
+    ]
+  },
+  "cbrn": { "detection": 35, "protection": 25, "decontamination": 20, "medical": 25, "missileDefense": 0 },
+  "flags": { "recognizedArsenal": false },
+  "objectives": [
+    {
+      "id": "india_keep_nfu",
+      "label": "Keep No First Use credible: never be first to use WMD",
+      "weight": 30,
+      "satisfiedWhen": { "kind": "not", "cond": { "kind": "event_occurred", "eventType": "wmd_first_use", "withinTurns": 999, "actor": "$self" } }
+    },
+    {
+      "id": "india_hold_kashmir",
+      "label": "Hold Jammu and Kashmir and the Kargil heights",
+      "weight": 40,
+      "satisfiedWhen": {
+        "kind": "all",
+        "of": [
+          { "kind": "controls_region", "nation": "$self", "region": "jammu_kashmir" },
+          { "kind": "controls_region", "nation": "$self", "region": "ladakh_kargil" }
+        ]
+      }
+    },
+    {
+      "id": "india_stay_stable",
+      "label": "Keep domestic stability above 40",
+      "weight": 30,
+      "satisfiedWhen": { "kind": "metric_at_least", "nation": "$self", "metric": "stability", "value": 40 }
+    }
+  ],
+  "stability": 65
+}

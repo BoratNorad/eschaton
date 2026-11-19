@@ -1,0 +1,23 @@
+{
+  "id": "kargil_infiltration",
+  "name": "High-altitude infiltration across the Line of Control",
+  "pair": ["india", "pakistan"],
+  "historicalModel": "Kargil, May-July 1999",
+  "when": {
+    "kind": "all",
+    "of": [
+      { "kind": "stat_at_least", "nation": "pakistan", "stat": "agg", "value": 6 },
+      { "kind": "treaty_status", "nation": "pakistan", "treaty": "lahore_declaration", "status": "ratified" },
+      { "kind": "not", "cond": { "kind": "flag_set", "flag": "kargil_happened" } }
+    ]
+  },
+  "chanceBp": 400,
+  "maxFires": 1,
+  "bindings": { "actor": "pakistan", "target": "india" },
+  "effects": [
+    { "kind": "set_flag", "flag": "kargil_happened", "value": true },
+    { "kind": "violate_treaty", "nation": "pakistan", "treaty": "lahore_declaration" },
+    { "kind": "raise_tension", "pair": ["india", "pakistan"], "levels": 2 },
+    { "kind": "emit_event", "eventType": "border_infiltration", "visibility": "public", "text": "Intruders hold heights above the Kargil road.", "actor": "$actor", "target": "$target" }
+  ]
+}

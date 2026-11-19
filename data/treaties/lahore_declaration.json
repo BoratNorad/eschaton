@@ -1,0 +1,14 @@
+{
+  "id": "lahore_declaration",
+  "name": "Lahore Declaration",
+  "year": 1999,
+  "covers": ["confidence_building"],
+  "verification": "none",
+  "detectionBpPerTurn": 0,
+  "parties": { "india": "ratified", "pakistan": "ratified" },
+  "inForce": true,
+  "onViolation": [
+    { "kind": "modify_stat", "nation": "india", "stat": "par", "delta": 2, "turns": 12 },
+    { "kind": "stability_shock", "nation": "india", "amount": -10 }
+  ]
+}

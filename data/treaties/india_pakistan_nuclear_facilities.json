@@ -1,0 +1,15 @@
+{
+  "id": "india_pakistan_nuclear_facilities",
+  "name": "Agreement on the Prohibition of Attack against Nuclear Installations",
+  "year": 1988,
+  "covers": ["nuclear_facility_attack"],
+  "verification": "list_exchange",
+  "detectionBpPerTurn": 10000,
+  "parties": { "india": "ratified", "pakistan": "ratified" },
+  "inForce": true,
+  "onViolation": [
+    { "kind": "raise_tension", "pair": ["india", "pakistan"], "levels": 2 },
+    { "kind": "emit_event", "eventType": "treaty_violated", "visibility": "public", "text": "A listed nuclear installation has been attacked.", "actor": "$actor" }
+  ],
+  "notes": "Both sides exchange site lists every 1 January; any strike on a listed site is detected automatically."
+}

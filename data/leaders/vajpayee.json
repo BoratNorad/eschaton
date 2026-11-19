@@ -1,0 +1,13 @@
+{
+  "id": "vajpayee",
+  "name": "Atal Bihari Vajpayee",
+  "alias": "Prime Minister Devraj Anand",
+  "title": "Prime Minister",
+  "snapshot": { "from": 1998, "to": 2002 },
+  "stats": { "agg": 4, "esc": 8, "par": 5, "blf": 5, "loy": 7, "dom": 7, "ctl": 9 },
+  "traits": [
+    { "id": "coercive_restraint", "params": { "pressurePerTurn": 5, "stabilityCostPerTurn": 2 } },
+    { "id": "no_first_use", "params": { "firstUseStabilityShock": 40 } }
+  ],
+  "profile": "Poet-politician and moderate face of his party. Ordered the 1998 tests, pursued a peace summit in early 1999, then faced the Kargil infiltration. Mobilized for ten months after the 2001 Parliament attack but held back from war."
+}

@@ -1,0 +1,69 @@
+{
+  "id": "pakistan",
+  "name": "Pakistan",
+  "leaderId": "musharraf",
+  "snapshotYear": 2001,
+  "coalition": { "id": "INDPAK", "role": "core" },
+  "capitalMetroId": "rawalpindi_islamabad",
+  "metros": [
+    { "id": "karachi", "name": "Karachi", "regionId": "sindh", "populationK": 9300, "economicWeight": 20 },
+    { "id": "lahore", "name": "Lahore", "regionId": "punjab_pk", "populationK": 5100, "economicWeight": 12 },
+    { "id": "faisalabad", "name": "Faisalabad", "regionId": "punjab_pk", "populationK": 2000, "economicWeight": 6 },
+    { "id": "rawalpindi_islamabad", "name": "Rawalpindi-Islamabad", "regionId": "islamabad_rawalpindi", "populationK": 2300, "economicWeight": 6, "isCapital": true },
+    { "id": "multan", "name": "Multan", "regionId": "punjab_pk", "populationK": 1200, "economicWeight": 3 },
+    { "id": "hyderabad_pk", "name": "Hyderabad", "regionId": "sindh", "populationK": 1150, "economicWeight": 3 },
+    { "id": "peshawar", "name": "Peshawar", "regionId": "khyber", "populationK": 1000, "economicWeight": 3 }
+  ],
+  "sites": [
+    { "id": "ghq_rawalpindi", "name": "Army General Headquarters, Rawalpindi", "regionId": "islamabad_rawalpindi", "kinds": ["leadership", "command_bunker"], "hardness": 4, "discovery": "public", "value": 95 },
+    { "id": "kahuta", "name": "Khan Research Laboratories, Kahuta", "regionId": "islamabad_rawalpindi", "kinds": ["enrichment", "weapons_lab"], "hardness": 5, "discovery": "public", "value": 90 },
+    { "id": "khushab", "name": "Khushab reactor", "regionId": "punjab_pk", "kinds": ["reactor"], "hardness": 3, "discovery": "public", "value": 70 },
+    { "id": "pinstech", "name": "PINSTECH, Nilore", "regionId": "islamabad_rawalpindi", "kinds": ["research_reactor"], "hardness": 3, "discovery": "public", "value": 50 },
+    { "id": "chagai", "name": "Chagai test site", "regionId": "balochistan", "kinds": ["test_site"], "hardness": 6, "discovery": "public", "value": 30 },
+    { "id": "sargodha_air_base", "name": "Sargodha air base", "regionId": "punjab_pk", "kinds": ["air_base"], "hardness": 5, "discovery": "public", "value": 70 },
+    { "id": "wah_factories", "name": "Wah ordnance factories", "regionId": "punjab_pk", "kinds": ["industrial"], "hardness": 2, "discovery": "public", "value": 50 },
+    { "id": "karachi_port", "name": "Karachi port and naval base", "regionId": "sindh", "kinds": ["port", "naval_base"], "hardness": 2, "discovery": "public", "value": 80 }
+  ],
+  "nuclear": { "status": "declared_arsenal", "warheads": 30, "progressBp": 0, "progressPerTurnBp": 150, "testsConducted": 6 },
+  "chemical": { "status": "none", "stockpileTonnes": 0 },
+  "biological": { "status": "none", "capability": 0 },
+  "radiological": { "capability": 1, "accidentRiskBp": 5 },
+  "delivery": [
+    { "id": "ghauri", "name": "Ghauri", "kind": "mrbm", "count": 6, "rangeKm": 1300, "payloads": ["conventional", "nuclear"], "survivability": 5, "readyTurns": 2 },
+    { "id": "shaheen_i", "name": "Shaheen-I", "kind": "srbm", "count": 8, "rangeKm": 750, "payloads": ["conventional", "nuclear"], "survivability": 6, "readyTurns": 1 },
+    { "id": "ghaznavi", "name": "Ghaznavi", "kind": "srbm", "count": 10, "rangeKm": 290, "payloads": ["conventional", "nuclear"], "survivability": 6, "readyTurns": 1 },
+    { "id": "f16_pk", "name": "F-16", "kind": "strike_aircraft", "count": 32, "rangeKm": 1000, "payloads": ["conventional", "nuclear"], "basingSiteIds": ["sargodha_air_base"], "survivability": 3, "readyTurns": 0 }
+  ],
+  "conventional": {
+    "army": 55,
+    "air": 45,
+    "navy": 30,
+    "deployments": [
+      { "regionId": "azad_kashmir_gilgit", "strength": 30 },
+      { "regionId": "punjab_pk", "strength": 35 },
+      { "regionId": "sindh", "strength": 15 }
+    ]
+  },
+  "cbrn": { "detection": 25, "protection": 20, "decontamination": 15, "medical": 20, "missileDefense": 0 },
+  "objectives": [
+    {
+      "id": "pakistan_hold_kashmir",
+      "label": "Hold Azad Kashmir and Gilgit",
+      "weight": 35,
+      "satisfiedWhen": { "kind": "controls_region", "nation": "$self", "region": "azad_kashmir_gilgit" }
+    },
+    {
+      "id": "pakistan_parity",
+      "label": "Keep a deterrent of at least 25 warheads",
+      "weight": 35,
+      "satisfiedWhen": { "kind": "metric_at_least", "nation": "$self", "metric": "nuclear_warheads", "value": 25 }
+    },
+    {
+      "id": "pakistan_regime_survival",
+      "label": "Keep domestic stability above 35",
+      "weight": 30,
+      "satisfiedWhen": { "kind": "metric_at_least", "nation": "$self", "metric": "stability", "value": 35 }
+    }
+  ],
+  "stability": 50
+}

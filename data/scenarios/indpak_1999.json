@@ -1,0 +1,52 @@
+{
+  "id": "indpak_1999",
+  "name": "Stability-Instability: South Asia 1999-2002",
+  "description": "Two new nuclear powers, one disputed mountain region and a shrinking margin for error. The first playable vertical slice.",
+  "mapId": "south_asia",
+  "turnLengthMonths": 1,
+  "maxTurns": 48,
+  "startingPhase": "cold_composite",
+  "coalitions": ["INDPAK"],
+  "nations": ["india", "pakistan"],
+  "treaties": ["india_pakistan_nuclear_facilities", "lahore_declaration"],
+  "triggers": ["kargil_infiltration", "parliament_attack"],
+  "initialTensions": [{ "pair": ["india", "pakistan"], "level": 2, "pressure": 30 }],
+  "victory": [
+    {
+      "id": "mutual_catastrophe",
+      "label": "Nuclear exchange: everyone loses",
+      "outcome": "loss",
+      "when": { "kind": "event_occurred", "eventType": "nuclear_exchange", "withinTurns": 999 }
+    },
+    {
+      "id": "india_deterrence_holds",
+      "label": "India holds Kashmir and stays stable to the end",
+      "side": "india",
+      "outcome": "win",
+      "when": {
+        "kind": "all",
+        "of": [
+          { "kind": "turn_at_least", "turn": 48 },
+          { "kind": "controls_region", "nation": "india", "region": "jammu_kashmir" },
+          { "kind": "metric_at_least", "nation": "india", "metric": "stability", "value": 40 }
+        ]
+      }
+    },
+    {
+      "id": "pakistan_survives_and_gains",
+      "label": "Pakistan keeps its deterrent and its regime to the end",
+      "side": "pakistan",
+      "outcome": "win",
+      "when": {
+        "kind": "all",
+        "of": [
+          { "kind": "turn_at_least", "turn": 48 },
+          { "kind": "metric_at_least", "nation": "pakistan", "metric": "nuclear_warheads", "value": 25 },
+          { "kind": "metric_at_least", "nation": "pakistan", "metric": "stability", "value": 35 }
+        ]
+      }
+    }
+  ],
+  "humanSeats": ["india", "pakistan"],
+  "turnTimerSeconds": 0
+}

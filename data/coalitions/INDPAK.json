@@ -1,0 +1,11 @@
+{
+  "id": "INDPAK",
+  "names": { "cold_composite": "INDPAK" },
+  "playable": true,
+  "splitTheater": true,
+  "specialRules": [
+    { "id": "stability_instability_paradox", "params": { "incidentBonusBp": 150, "invasionPenaltyBp": 2000 } },
+    { "id": "third_party_brokers", "params": {} }
+  ],
+  "description": "Split theater: India and Pakistan are separate sides and each other's main adversary."
+}

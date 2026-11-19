@@ -1,0 +1,33 @@
+{
+  "id": "parliament_attack",
+  "name": "Militant attack on the national parliament",
+  "pair": ["india", "pakistan"],
+  "historicalModel": "New Delhi, 13 December 2001",
+  "when": {
+    "kind": "all",
+    "of": [
+      { "kind": "tension_at_least", "pair": ["india", "pakistan"], "level": 2 },
+      { "kind": "metric_at_most", "nation": "pakistan", "metric": "stability", "value": 70 }
+    ]
+  },
+  "chanceBp": 300,
+  "cooldownTurns": 24,
+  "maxFires": 1,
+  "bindings": { "actor": "pakistan", "target": "india" },
+  "effects": [
+    { "kind": "emit_event", "eventType": "terror_attack_capital", "visibility": "public", "text": "Gunmen have attacked the national parliament in New Delhi.", "target": "$target" },
+    { "kind": "raise_tension", "pair": ["india", "pakistan"], "levels": 1 },
+    { "kind": "stability_shock", "nation": "india", "amount": -12 },
+    {
+      "kind": "stat_roll",
+      "nation": "india",
+      "stat": "esc",
+      "difficulty": 6,
+      "onPass": [{ "kind": "unlock_action", "nation": "india", "action": "coercive_mobilization", "turns": 12 }],
+      "onFail": [
+        { "kind": "unlock_action", "nation": "india", "action": "coercive_mobilization", "turns": 12 },
+        { "kind": "add_pressure", "pair": ["india", "pakistan"], "points": 50 }
+      ]
+    }
+  ]
+}

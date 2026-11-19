@@ -1,0 +1,551 @@
+{
+  "id": "south_asia",
+  "name": "South Asia theater",
+  "regions": [
+    {
+      "id": "delhi_ncr",
+      "name": "Delhi capital region",
+      "controller": "india",
+      "terrain": "urban",
+      "displayCentroid": [
+        28.6,
+        77.2
+      ]
+    },
+    {
+      "id": "punjab_haryana",
+      "name": "Punjab and Haryana",
+      "controller": "india",
+      "terrain": "plains",
+      "displayCentroid": [
+        30.4,
+        76
+      ]
+    },
+    {
+      "id": "jammu_kashmir",
+      "name": "Jammu and Kashmir",
+      "controller": "india",
+      "terrain": "mountain",
+      "displayCentroid": [
+        33.5,
+        75
+      ]
+    },
+    {
+      "id": "ladakh_kargil",
+      "name": "Ladakh and Kargil",
+      "controller": "india",
+      "terrain": "mountain",
+      "displayCentroid": [
+        34.4,
+        77
+      ]
+    },
+    {
+      "id": "rajasthan",
+      "name": "Rajasthan",
+      "controller": "india",
+      "terrain": "desert",
+      "displayCentroid": [
+        26.9,
+        72.5
+      ]
+    },
+    {
+      "id": "central_india",
+      "name": "Central India",
+      "controller": "india",
+      "terrain": "plains",
+      "displayCentroid": [
+        24.5,
+        78.5
+      ]
+    },
+    {
+      "id": "gujarat",
+      "name": "Gujarat",
+      "controller": "india",
+      "terrain": "plains",
+      "displayCentroid": [
+        22.8,
+        71.8
+      ]
+    },
+    {
+      "id": "maharashtra",
+      "name": "Maharashtra",
+      "controller": "india",
+      "terrain": "plains",
+      "displayCentroid": [
+        19.3,
+        74.5
+      ]
+    },
+    {
+      "id": "deccan",
+      "name": "Deccan (Karnataka, Telangana)",
+      "controller": "india",
+      "terrain": "plains",
+      "displayCentroid": [
+        15.8,
+        77.5
+      ]
+    },
+    {
+      "id": "tamil_nadu",
+      "name": "Tamil Nadu",
+      "controller": "india",
+      "terrain": "plains",
+      "displayCentroid": [
+        11.5,
+        79
+      ]
+    },
+    {
+      "id": "bengal_odisha",
+      "name": "Bengal and Odisha",
+      "controller": "india",
+      "terrain": "plains",
+      "displayCentroid": [
+        21.8,
+        86.5
+      ]
+    },
+    {
+      "id": "islamabad_rawalpindi",
+      "name": "Islamabad and Rawalpindi",
+      "controller": "pakistan",
+      "terrain": "urban",
+      "displayCentroid": [
+        33.6,
+        73.1
+      ]
+    },
+    {
+      "id": "punjab_pk",
+      "name": "Punjab (Pakistan)",
+      "controller": "pakistan",
+      "terrain": "plains",
+      "displayCentroid": [
+        31.2,
+        72.6
+      ]
+    },
+    {
+      "id": "azad_kashmir_gilgit",
+      "name": "Azad Kashmir and Gilgit",
+      "controller": "pakistan",
+      "terrain": "mountain",
+      "displayCentroid": [
+        35,
+        74
+      ]
+    },
+    {
+      "id": "khyber",
+      "name": "Khyber region",
+      "controller": "pakistan",
+      "terrain": "mountain",
+      "displayCentroid": [
+        34,
+        71.5
+      ]
+    },
+    {
+      "id": "sindh",
+      "name": "Sindh",
+      "controller": "pakistan",
+      "terrain": "plains",
+      "displayCentroid": [
+        25.9,
+        68.5
+      ]
+    },
+    {
+      "id": "balochistan",
+      "name": "Balochistan",
+      "controller": "pakistan",
+      "terrain": "desert",
+      "displayCentroid": [
+        28.5,
+        65.5
+      ]
+    },
+    {
+      "id": "arabian_sea",
+      "name": "Arabian Sea",
+      "controller": "none",
+      "terrain": "sea",
+      "displayCentroid": [
+        18,
+        66
+      ]
+    },
+    {
+      "id": "bay_of_bengal",
+      "name": "Bay of Bengal",
+      "controller": "none",
+      "terrain": "sea",
+      "displayCentroid": [
+        15,
+        88
+      ]
+    }
+  ],
+  "links": [
+    {
+      "from": "delhi_ncr",
+      "to": "punjab_haryana",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "delhi_ncr",
+      "to": "rajasthan",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "delhi_ncr",
+      "to": "central_india",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "punjab_haryana",
+      "to": "jammu_kashmir",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "punjab_haryana",
+      "to": "punjab_pk",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "punjab_haryana",
+      "to": "rajasthan",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "jammu_kashmir",
+      "to": "ladakh_kargil",
+      "mode": "land",
+      "moveTurns": 2
+    },
+    {
+      "from": "jammu_kashmir",
+      "to": "azad_kashmir_gilgit",
+      "mode": "land",
+      "moveTurns": 2
+    },
+    {
+      "from": "ladakh_kargil",
+      "to": "azad_kashmir_gilgit",
+      "mode": "land",
+      "moveTurns": 3
+    },
+    {
+      "from": "rajasthan",
+      "to": "sindh",
+      "mode": "land",
+      "moveTurns": 2
+    },
+    {
+      "from": "rajasthan",
+      "to": "punjab_pk",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "rajasthan",
+      "to": "gujarat",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "gujarat",
+      "to": "sindh",
+      "mode": "land",
+      "moveTurns": 2
+    },
+    {
+      "from": "gujarat",
+      "to": "maharashtra",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "central_india",
+      "to": "maharashtra",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "central_india",
+      "to": "bengal_odisha",
+      "mode": "land",
+      "moveTurns": 2
+    },
+    {
+      "from": "maharashtra",
+      "to": "deccan",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "deccan",
+      "to": "tamil_nadu",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "deccan",
+      "to": "bengal_odisha",
+      "mode": "land",
+      "moveTurns": 2
+    },
+    {
+      "from": "punjab_pk",
+      "to": "islamabad_rawalpindi",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "punjab_pk",
+      "to": "sindh",
+      "mode": "land",
+      "moveTurns": 2
+    },
+    {
+      "from": "punjab_pk",
+      "to": "balochistan",
+      "mode": "land",
+      "moveTurns": 2
+    },
+    {
+      "from": "islamabad_rawalpindi",
+      "to": "azad_kashmir_gilgit",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "islamabad_rawalpindi",
+      "to": "khyber",
+      "mode": "land",
+      "moveTurns": 1
+    },
+    {
+      "from": "sindh",
+      "to": "balochistan",
+      "mode": "land",
+      "moveTurns": 2
+    },
+    {
+      "from": "sindh",
+      "to": "arabian_sea",
+      "mode": "sea",
+      "moveTurns": 1
+    },
+    {
+      "from": "gujarat",
+      "to": "arabian_sea",
+      "mode": "sea",
+      "moveTurns": 1
+    },
+    {
+      "from": "maharashtra",
+      "to": "arabian_sea",
+      "mode": "sea",
+      "moveTurns": 1
+    },
+    {
+      "from": "tamil_nadu",
+      "to": "bay_of_bengal",
+      "mode": "sea",
+      "moveTurns": 1
+    },
+    {
+      "from": "bengal_odisha",
+      "to": "bay_of_bengal",
+      "mode": "sea",
+      "moveTurns": 1
+    }
+  ],
+  "greatCircleKm": {
+    "arabian_sea|azad_kashmir_gilgit": 2049,
+    "arabian_sea|balochistan": 1169,
+    "arabian_sea|bay_of_bengal": 2368,
+    "arabian_sea|bengal_odisha": 2183,
+    "arabian_sea|central_india": 1482,
+    "arabian_sea|deccan": 1247,
+    "arabian_sea|delhi_ncr": 1640,
+    "arabian_sea|gujarat": 806,
+    "arabian_sea|islamabad_rawalpindi": 1873,
+    "arabian_sea|jammu_kashmir": 1943,
+    "arabian_sea|khyber": 1861,
+    "arabian_sea|ladakh_kargil": 2125,
+    "arabian_sea|maharashtra": 907,
+    "arabian_sea|punjab_haryana": 1710,
+    "arabian_sea|punjab_pk": 1611,
+    "arabian_sea|rajasthan": 1193,
+    "arabian_sea|sindh": 915,
+    "arabian_sea|tamil_nadu": 1573,
+    "azad_kashmir_gilgit|balochistan": 1080,
+    "azad_kashmir_gilgit|bay_of_bengal": 2627,
+    "azad_kashmir_gilgit|bengal_odisha": 1907,
+    "azad_kashmir_gilgit|central_india": 1245,
+    "azad_kashmir_gilgit|deccan": 2163,
+    "azad_kashmir_gilgit|delhi_ncr": 773,
+    "azad_kashmir_gilgit|gujarat": 1373,
+    "azad_kashmir_gilgit|islamabad_rawalpindi": 176,
+    "azad_kashmir_gilgit|jammu_kashmir": 190,
+    "azad_kashmir_gilgit|khyber": 255,
+    "azad_kashmir_gilgit|ladakh_kargil": 282,
+    "azad_kashmir_gilgit|maharashtra": 1746,
+    "azad_kashmir_gilgit|punjab_haryana": 545,
+    "azad_kashmir_gilgit|punjab_pk": 442,
+    "azad_kashmir_gilgit|rajasthan": 912,
+    "azad_kashmir_gilgit|sindh": 1140,
+    "azad_kashmir_gilgit|tamil_nadu": 2661,
+    "balochistan|bay_of_bengal": 2758,
+    "balochistan|bengal_odisha": 2237,
+    "balochistan|central_india": 1367,
+    "balochistan|deccan": 1874,
+    "balochistan|delhi_ncr": 1142,
+    "balochistan|gujarat": 894,
+    "balochistan|islamabad_rawalpindi": 919,
+    "balochistan|jammu_kashmir": 1062,
+    "balochistan|khyber": 836,
+    "balochistan|ladakh_kargil": 1272,
+    "balochistan|maharashtra": 1371,
+    "balochistan|punjab_haryana": 1038,
+    "balochistan|punjab_pk": 747,
+    "balochistan|rajasthan": 712,
+    "balochistan|sindh": 414,
+    "balochistan|tamil_nadu": 2354,
+    "bay_of_bengal|bengal_odisha": 772,
+    "bay_of_bengal|central_india": 1449,
+    "bay_of_bengal|deccan": 1129,
+    "bay_of_bengal|delhi_ncr": 1876,
+    "bay_of_bengal|gujarat": 1910,
+    "bay_of_bengal|islamabad_rawalpindi": 2554,
+    "bay_of_bengal|jammu_kashmir": 2438,
+    "bay_of_bengal|khyber": 2684,
+    "bay_of_bengal|ladakh_kargil": 2422,
+    "bay_of_bengal|maharashtra": 1511,
+    "bay_of_bengal|punjab_haryana": 2105,
+    "bay_of_bengal|punjab_pk": 2387,
+    "bay_of_bengal|rajasthan": 2080,
+    "bay_of_bengal|sindh": 2361,
+    "bay_of_bengal|tamil_nadu": 1049,
+    "bengal_odisha|central_india": 871,
+    "bengal_odisha|deccan": 1158,
+    "bengal_odisha|delhi_ncr": 1202,
+    "bengal_odisha|gujarat": 1516,
+    "bengal_odisha|islamabad_rawalpindi": 1857,
+    "bengal_odisha|jammu_kashmir": 1722,
+    "bengal_odisha|khyber": 1999,
+    "bengal_odisha|ladakh_kargil": 1681,
+    "bengal_odisha|maharashtra": 1280,
+    "bengal_odisha|punjab_haryana": 1418,
+    "bengal_odisha|punjab_pk": 1731,
+    "bengal_odisha|rajasthan": 1526,
+    "bengal_odisha|sindh": 1885,
+    "bengal_odisha|tamil_nadu": 1396,
+    "central_india|deccan": 973,
+    "central_india|delhi_ncr": 474,
+    "central_india|gujarat": 708,
+    "central_india|islamabad_rawalpindi": 1139,
+    "central_india|jammu_kashmir": 1057,
+    "central_india|khyber": 1255,
+    "central_india|ladakh_kargil": 1110,
+    "central_india|maharashtra": 710,
+    "central_india|punjab_haryana": 701,
+    "central_india|punjab_pk": 944,
+    "central_india|rajasthan": 658,
+    "central_india|sindh": 1018,
+    "central_india|tamil_nadu": 1446,
+    "deccan|delhi_ncr": 1424,
+    "deccan|gujarat": 981,
+    "deccan|islamabad_rawalpindi": 2028,
+    "deccan|jammu_kashmir": 1984,
+    "deccan|khyber": 2111,
+    "deccan|ladakh_kargil": 2069,
+    "deccan|maharashtra": 503,
+    "deccan|punjab_haryana": 1631,
+    "deccan|punjab_pk": 1783,
+    "deccan|rajasthan": 1338,
+    "deccan|sindh": 1460,
+    "deccan|tamil_nadu": 505,
+    "delhi_ncr|gujarat": 842,
+    "delhi_ncr|islamabad_rawalpindi": 679,
+    "delhi_ncr|jammu_kashmir": 584,
+    "delhi_ncr|khyber": 808,
+    "delhi_ncr|ladakh_kargil": 645,
+    "delhi_ncr|maharashtra": 1070,
+    "delhi_ncr|punjab_haryana": 231,
+    "delhi_ncr|punjab_pk": 529,
+    "delhi_ncr|rajasthan": 500,
+    "delhi_ncr|sindh": 911,
+    "delhi_ncr|tamil_nadu": 1911,
+    "gujarat|islamabad_rawalpindi": 1208,
+    "gujarat|jammu_kashmir": 1230,
+    "gujarat|khyber": 1246,
+    "gujarat|ladakh_kargil": 1386,
+    "gujarat|maharashtra": 480,
+    "gujarat|punjab_haryana": 942,
+    "gujarat|punjab_pk": 937,
+    "gujarat|rajasthan": 461,
+    "gujarat|sindh": 480,
+    "gujarat|tamil_nadu": 1470,
+    "islamabad_rawalpindi|jammu_kashmir": 176,
+    "islamabad_rawalpindi|khyber": 154,
+    "islamabad_rawalpindi|ladakh_kargil": 370,
+    "islamabad_rawalpindi|maharashtra": 1596,
+    "islamabad_rawalpindi|punjab_haryana": 449,
+    "islamabad_rawalpindi|punjab_pk": 271,
+    "islamabad_rawalpindi|rajasthan": 747,
+    "islamabad_rawalpindi|sindh": 964,
+    "islamabad_rawalpindi|tamil_nadu": 2530,
+    "jammu_kashmir|khyber": 328,
+    "jammu_kashmir|ladakh_kargil": 210,
+    "jammu_kashmir|maharashtra": 1580,
+    "jammu_kashmir|punjab_haryana": 357,
+    "jammu_kashmir|punjab_pk": 341,
+    "jammu_kashmir|rajasthan": 772,
+    "jammu_kashmir|sindh": 1052,
+    "jammu_kashmir|tamil_nadu": 2480,
+    "khyber|ladakh_kargil": 508,
+    "khyber|maharashtra": 1661,
+    "khyber|punjab_haryana": 583,
+    "khyber|punjab_pk": 328,
+    "khyber|rajasthan": 795,
+    "khyber|sindh": 946,
+    "khyber|tamil_nadu": 2615,
+    "ladakh_kargil|maharashtra": 1697,
+    "ladakh_kargil|punjab_haryana": 455,
+    "ladakh_kargil|punjab_pk": 544,
+    "ladakh_kargil|rajasthan": 938,
+    "ladakh_kargil|sindh": 1248,
+    "ladakh_kargil|tamil_nadu": 2554,
+    "maharashtra|punjab_haryana": 1243,
+    "maharashtra|punjab_pk": 1337,
+    "maharashtra|rajasthan": 869,
+    "maharashtra|sindh": 958,
+    "maharashtra|tamil_nadu": 992,
+    "punjab_haryana|punjab_pk": 337,
+    "punjab_haryana|rajasthan": 518,
+    "punjab_haryana|sindh": 889,
+    "punjab_haryana|tamil_nadu": 2124,
+    "punjab_pk|rajasthan": 478,
+    "punjab_pk|sindh": 712,
+    "punjab_pk|tamil_nadu": 2287,
+    "rajasthan|sindh": 414,
+    "rajasthan|tamil_nadu": 1842,
+    "sindh|tamil_nadu": 1944
+  }
+}
