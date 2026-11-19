@@ -2,13 +2,18 @@
   "name": "eschaton",
   "private": true,
   "type": "module",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p packages/client/tsconfig.json",
     "validate": "tsx tools/validate-content.ts data",
     "build:distances": "tsx tools/build-distances.ts data/maps",
     "test": "vitest run",
-    "check": "npm run typecheck && npm run validate && npm run test"
+    "check": "npm run typecheck && npm run validate && npm run test",
+    "dev": "npm run dev -w @eschaton/client",
+    "build": "npm run build -w @eschaton/client",
+    "e2e": "npm run e2e -w @eschaton/client"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

@@ -18,7 +18,8 @@ packages/engine/      Pure simulation. No I/O, no DOM, no network. Runs in brows
   src/util/           Determinism helpers (pairKey, sortedEntries, hashState)
   src/api.ts          The Engine interface: createGame, resolveTurn, legalOrders, viewFor, revealAll
 packages/server/      (planned) Node + Colyseus. Authoritative engine host, lobbies, chat, AI seat-fill
-packages/client/      (planned) React UI + PixiJS map. Single-player runs the engine in a Web Worker
+packages/client/      React UI + PixiJS map. The engine runs in a Web Worker (src/worker/session.ts holds
+                      the only GameState); the UI thread gets PlayerViews, menus and names only
 packages/ai/          (planned) Utility AI driven by leader stats; headless harness
 data/                 Game content as JSON, one object per file, file name = id
 tools/                Node-only scripts (fs allowed here, never in the engine)
@@ -32,6 +33,8 @@ npm run validate         parse every /data file with its schema, then check all 
 npm run build:distances  regenerate greatCircleKm tables in /data/maps (commit the result)
 npm run test             vitest
 npm run check            all of the above; run before finishing any task
+npm run dev              hotseat client (Vite dev server)
+npm run e2e              build the client and play 3 hotseat turns in headless Chromium
 ```
 
 ## Hard rules for the engine (packages/engine)

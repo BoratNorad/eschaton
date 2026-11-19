@@ -1,3 +1,5 @@
 node_modules/
 *.log
 .env
+packages/client/e2e/out/
+packages/client/dist/
