@@ -114,3 +114,19 @@ describe("legalOrders", () => {
     expect(levelOf(states.at(-1)!)).toBe(5);
   });
 });
+
+describe("fog in strikes", () => {
+  it("undiscovered sites are neither offered nor accepted, with the same reason as a nonexistent target", () => {
+    const s = newGame(1);
+    s.tensions["india|pakistan"]!.level = 4;
+    const menu = legalOrders(bundle, s, "pakistan");
+    expect(menu.some((o) => o.kind === "strike" && o.targetId === "india_cw_depot")).toBe(false);
+    expect(menu.some((o) => o.kind === "strike" && o.targetId === "ambala_air_base")).toBe(true);
+    const strike = (targetId: string): Order => ({ kind: "strike", targetId, deliveryId: "f16_pk", payload: "conventional", count: 1 });
+    const check = checkOrderSet(bundle, s, { nationId: "pakistan", turn: 0, orders: [strike("india_cw_depot"), strike("atlantis")] });
+    expect(check.orders).toEqual(["unknown target india_cw_depot", "unknown target atlantis"]);
+    // Once discovered, it becomes a target.
+    s.beliefs.pakistan!.india!.knownSites.push("india_cw_depot");
+    expect(legalOrders(bundle, s, "pakistan").some((o) => o.kind === "strike" && o.targetId === "india_cw_depot")).toBe(true);
+  });
+});

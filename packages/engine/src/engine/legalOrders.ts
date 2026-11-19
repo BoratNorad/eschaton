@@ -100,7 +100,8 @@ function candidates(t: Turn, nationId: string): Order[] {
   // Strikes: every rival site and metro x delivery system x payload, at count 1 and at the max.
   for (const targetNation of others) {
     const tc = nationContent(t, targetNation);
-    const targets = [...tc.sites.map((s) => s.id), ...tc.metros.map((m) => m.id)].sort();
+    const known = new Set(state.beliefs[nationId]?.[targetNation]?.knownSites ?? []);
+    const targets = [...tc.sites.map((s) => s.id).filter((id) => known.has(id)), ...tc.metros.map((m) => m.id)].sort();
     for (const targetId of targets)
       for (const d of content.delivery)
         for (const payload of d.payloads) {

@@ -256,6 +256,9 @@ function checkStrike(t: Turn, nationId: string, n: NationState, o: OrderOf<"stri
   const { state, map } = t;
   const target = locateTarget(t, o.targetId);
   if (target === undefined) return `unknown target ${o.targetId}`;
+  // Fog: a site you have not discovered is indistinguishable from one that does not exist.
+  if (target.kind === "site" && target.ownerId !== nationId && !state.beliefs[nationId]?.[target.ownerId]?.knownSites.includes(o.targetId))
+    return `unknown target ${o.targetId}`;
   const owner = state.nations[target.ownerId];
   if (target.ownerId === nationId || owner === undefined || !owner.active) return "not a valid target";
   if (owner.side === n.side) return "cannot strike your own side";
