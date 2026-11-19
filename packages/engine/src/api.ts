@@ -22,7 +22,12 @@ export interface Engine {
    */
   resolveTurn(content: ContentBundle, state: GameState, orders: OrderSet[]): TurnResult;
 
-  /** Orders this nation may legally submit this turn. The server rejects anything else. */
+  /**
+   * A menu of orders this nation may submit this turn, each legal on its own.
+   * Numeric fields are sampled, so it is not exhaustive. The server judges
+   * submissions with checkOrderSet (src/engine/legalOrders.ts), which applies
+   * exactly the step-1 rules.
+   */
   legalOrders(content: ContentBundle, state: GameState, nationId: string): Order[];
 
   /** Fog-of-war slice for one player. The server sends only this to clients. */
