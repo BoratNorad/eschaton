@@ -1,0 +1,28 @@
+{
+  "name": "eschaton-engine",
+  "version": "1.2.0",
+  "description": "ESCHATON rules engine and ledger loader (formula_version 1.2). Zero runtime dependencies.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./ledger.json": "./data/eschaton_ledger.json"
+  },
+  "files": [
+    "dist",
+    "src",
+    "data",
+    "test",
+    "examples"
+  ],
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "tsc -p . && node --test test/*.test.mjs",
+    "demo": "tsc -p . && node examples/simulate.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "SEE LICENSE IN README.md"
+}
